@@ -19,7 +19,7 @@ public class hpaddscript : MonoBehaviour
     {
         
     }
-void OnCollisionEnter2D(Collision2D collision){
+void OnTriggerEnter2D(Collider2D collision){
 
            if(collision.gameObject.name == "King")
            {
@@ -30,7 +30,7 @@ void OnCollisionEnter2D(Collision2D collision){
           }}
 
           IEnumerator destroythis(){
-              gameObject.GetComponent<PolygonCollider2D>().isTrigger = true;
+              //gameObject.GetComponent<PolygonCollider2D>().isTrigger = true;
               ani.SetTrigger("Destroy");
                 yield return new WaitForSeconds(1f);
                 Destroy(gameObject);

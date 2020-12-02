@@ -64,6 +64,7 @@ public class hpscript: MonoBehaviour {
         {
             kuollut = true;
             StartCoroutine(kuolema());
+            Destroy(heart1);
         }
 
         if (hp < 3 && !tuhottu1)
@@ -74,7 +75,7 @@ public class hpscript: MonoBehaviour {
             //holderi = vaihdasydan;
             Destroy(heart3);
             Debug.Log("thoaa");
-            animator.SetTrigger("Destroy");
+            //animator.SetTrigger("Destroy");
         }
     
 
@@ -82,10 +83,11 @@ public class hpscript: MonoBehaviour {
         if (hp < 2 && !tuhottu2)
         {
             tuhottu2 = true;
-            GameObject vaihdasydan2 = Instantiate(heartz2, kamera.transform.position + new Vector3(-7.931f, 4.05f, 11f), transform.rotation);
-            vaihdasydan2.transform.parent = kamera.transform;
-            holderi2 = vaihdasydan2;
+            //GameObject vaihdasydan2 = Instantiate(heartz2, kamera.transform.position + new Vector3(-7.931f, 4.05f, 11f), transform.rotation);
+           // vaihdasydan2.transform.parent = kamera.transform;
+            //holderi2 = vaihdasydan2;
             Destroy(holderi);
+            Destroy(heart2);
         }
     }   
 

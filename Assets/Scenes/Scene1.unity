@@ -165,7 +165,7 @@ Animator:
   m_GameObject: {fileID: 16121015}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 246ec619bb504c443825c79003d5d10f, type: 2}
+  m_Controller: {fileID: 9100000, guid: a20d685000f281b46afed9657df797b9, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -6286,7 +6286,7 @@ Animator:
   m_GameObject: {fileID: 777853370}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 246ec619bb504c443825c79003d5d10f, type: 2}
+  m_Controller: {fileID: 9100000, guid: e03e54f331e577143807e12aaf9206b8, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -6708,7 +6708,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -6992,7 +6992,7 @@ PolygonCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}

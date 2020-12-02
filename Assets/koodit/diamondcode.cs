@@ -17,7 +17,7 @@ public class diamondcode : MonoBehaviour
     {
         
     }
-void OnCollisionEnter2D(Collision2D collision){
+void OnTriggerEnter2D(Collider2D collision){
 
            if(collision.gameObject.name == "King")
            {
@@ -28,7 +28,7 @@ void OnCollisionEnter2D(Collision2D collision){
           }}
 
           IEnumerator destroythis(){
-              gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
+              //gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
               Debug.Log("yolo");
               ani.SetTrigger("Destroy");
                 yield return new WaitForSeconds(1f);
