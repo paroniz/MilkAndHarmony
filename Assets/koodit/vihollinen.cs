@@ -7,6 +7,8 @@ public class vihollinen : MonoBehaviour
     public Animator animator;
 
     public int maxHealth = 100;
+
+    public int goldCount = 50;
     int currentHealth;
     // Start is called before the first frame update
     void Start()
@@ -35,5 +37,6 @@ public class vihollinen : MonoBehaviour
 
         GetComponent<Collider2D>().enabled = false;
          this.enabled = false;
+        // Destroy(gameObject);
     }
 }

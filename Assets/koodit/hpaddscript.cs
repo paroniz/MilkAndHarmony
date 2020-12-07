@@ -29,9 +29,9 @@ void OnTriggerEnter2D(Collider2D collision){
           StartCoroutine(destroythis());
           }}
 
-          IEnumerator destroythis(){
-              //gameObject.GetComponent<PolygonCollider2D>().isTrigger = true;
-              ani.SetTrigger("Destroy");
+  IEnumerator destroythis(){
+               //gameObject.GetComponent<PolygonCollider2D>().isTrigger = true;
+     ani.SetTrigger("Destroy");
                 yield return new WaitForSeconds(1f);
                 Destroy(gameObject);
                 
