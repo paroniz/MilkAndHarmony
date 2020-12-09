@@ -4,17 +4,26 @@ using UnityEngine;
 
 public class bombscript : MonoBehaviour
 {
-
     public Animator animator;
-    // Start is called before the first frame update
+
     void Start()
     {
         animator.SetTrigger("Bombon");
+        StartCoroutine(changetag());
+        StartCoroutine(explo());
     }
 
-    // Update is called once per frame
-    void Update()
+    IEnumerator explo()
     {
-        
+        yield return new WaitForSeconds(5f);
+        Destroy(gameObject);
+    }
+    
+
+    IEnumerator changetag()
+    {
+        yield return new WaitForSeconds(2f);
+        transform.gameObject.tag = "Bomb"; 
+        Debug.Log("testest");
     }
 }

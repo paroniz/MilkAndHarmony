@@ -31,7 +31,8 @@ public class Player : MonoBehaviour {
     public Vector3 colliderOffset;
 
     // Update is called once per frame
-    void Update() {
+    void Update() 
+    {
         bool wasOnGround = onGround;
         onGround = Physics2D.Raycast(transform.position + colliderOffset, Vector2.down, groundLength, groundLayer) || Physics2D.Raycast(transform.position - colliderOffset, Vector2.down, groundLength, groundLayer);
 
@@ -43,14 +44,13 @@ public class Player : MonoBehaviour {
             jumpTimer = Time.time + jumpDelay;
         }
         animator.SetBool("onGround", onGround);
-        direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));   
     }
     void FixedUpdate() {
         moveCharacter(direction.x);
         if(jumpTimer > Time.time && onGround){
             Jump();
         }
-
         modifyPhysics();
     }
     void moveCharacter(float horizontal) {

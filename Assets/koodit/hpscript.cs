@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class hpscript: MonoBehaviour {
-    
+public class hpscript: MonoBehaviour 
+{
     public Animator animator;
-    public AudioClip kuolinaani;
+    public AudioClip deathsound;
     public GameObject kuolinani;
     public GameObject heartz3;
     public GameObject heartz2;
@@ -21,6 +21,7 @@ public class hpscript: MonoBehaviour {
     private GameObject kamera;
     private AudioSource audio;
     private bool osunut;
+    private bool bombhit = false;
     private bool tippunut;
     private bool kuollut = false;
     private bool tuhottu1 = false;
@@ -30,7 +31,7 @@ public class hpscript: MonoBehaviour {
 
     void Start() {
         audio = gameObject.AddComponent<AudioSource>(); 
-        audio.clip = kuolinaani;
+        audio.clip = deathsound;
         audio.volume = 1.0f;
         
         heart1 =  GameObject.Find("SmallHeart1");
@@ -63,7 +64,7 @@ public class hpscript: MonoBehaviour {
         if (hp <= 0 && !kuollut)
         {
             kuollut = true;
-            StartCoroutine(kuolema());
+            //StartCoroutine(kuolema());
             Destroy(heart1);
         }
 
@@ -78,8 +79,6 @@ public class hpscript: MonoBehaviour {
             //animator.SetTrigger("Destroy");
         }
     
-
-
         if (hp < 2 && !tuhottu2)
         {
             tuhottu2 = true;
@@ -93,7 +92,7 @@ public class hpscript: MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if((collision.collider.tag == "Enemy" || collision.collider.tag == "medusaluoti") && !osunut)
+        if((collision.collider.tag == "Enemy" && !osunut))
         {
             audio.Play();
             osunut = true;
@@ -101,13 +100,28 @@ public class hpscript: MonoBehaviour {
             hp--;
         }
 
-    
         if(collision.gameObject.name == "BigHeart")
         {
             hp++;
             Debug.Log("yolo3");
         }
+    
+        
     }
+
+     void OnCollisionStay2D(Collision2D collision)
+     {
+         if((collision.collider.tag == "Bomb" && !osunut && !bombhit))
+        {
+            bombhit = true;
+            audio.Play();
+            osunut = true;
+            iskutime = 1.5f;
+            hp--;
+            StartCoroutine(bombhittime());
+            bombhit = false;
+        }
+     }
 
     IEnumerator kuolema()
     {
@@ -116,5 +130,9 @@ public class hpscript: MonoBehaviour {
         GetComponent<Renderer>().enabled = false;
         yield return new WaitForSeconds(1.6f);
         SceneManager.LoadScene("tappioskene");
+    }   
+    IEnumerator bombhittime()
+    {
+        yield return new WaitForSeconds(1.6f);
     }   
 }

@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class boxscript : MonoBehaviour
-{
+{ 
     public Animator animator;
-
     public int maxHealth = 40;
     int currentHealth;
-    // Start is called before the first frame update
     void Start()
     {
         currentHealth = maxHealth;
@@ -17,9 +15,7 @@ public class boxscript : MonoBehaviour
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
-
         animator.SetTrigger("Hurt");
-
         if(currentHealth <=0)
         {
             Die();
@@ -29,12 +25,10 @@ public class boxscript : MonoBehaviour
     void Die()
     {
         Debug.Log("Enemy died!");
-        
-        animator.SetTrigger("CannonShot");
+        //animator.SetTrigger("CannonShot");
         animator.SetBool("IsDead", true);
-
         GetComponent<Collider2D>().enabled = false;
-         this.enabled = false;
-         Destroy(gameObject);
+        this.enabled = false;
+        Destroy(gameObject);
     }
 }

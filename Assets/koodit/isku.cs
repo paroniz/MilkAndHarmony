@@ -5,28 +5,26 @@ using UnityEngine;
 public class isku : MonoBehaviour
 {
     public Animator animator;
-
     public Transform attackPoint;
     public LayerMask enemyLayers;
-
+    public LayerMask boxLayers;
     public float attackRange = 0.5f;
     public int attackDamage = 40;
-
     public float attackRate = 2f;
     float nextAttackTime = 0f;
 
     // Update is called once per frame
     void Update()
     {
-        float jAxis = Input.GetAxis("Fire1");
+        float fireaxis = Input.GetAxis("Fire1");
         
         if (Time.time >= nextAttackTime)
         {
-            if (jAxis > 0f)
-        {
-            Attack();
-            nextAttackTime = Time.time + 1f / attackRate;
-        }
+            if (fireaxis > 0f)
+            {
+                Attack();
+                nextAttackTime = Time.time + 1f / attackRate;
+            }
         }
     }
 
@@ -36,19 +34,32 @@ public class isku : MonoBehaviour
 
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
 
+        Collider2D[] hitBoxes = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, boxLayers);
 
-    foreach(Collider2D enemy in hitEnemies)
+        foreach(Collider2D enemy in hitEnemies)
+        {
+            if (enemy.gameObject.tag == "Enemy")
+            {
+                enemy.GetComponent<vihollinen>().TakeDamage(attackDamage);
+                Debug.Log("enemytakeshit");
+            }
+        }
+    
+        foreach(Collider2D box in hitBoxes)
+        {
+            if (box.gameObject.tag == "Box")
+            {
+                box.GetComponent<boxscript>().TakeDamage(attackDamage);
+                Debug.Log("boxtakeshit");
+            }
+       }
+    }
+
+    private void OnDrawGizmosSelected()
     {
-        enemy.GetComponent<vihollinen>().TakeDamage(attackDamage);
+        if (attackPoint==null)
+        return;
+
+        Gizmos.DrawWireSphere(attackPoint.position, attackRange);   
     }
-    }
-
-
-private void OnDrawGizmosSelected()
-{
-    if (attackPoint==null)
-    return;
-
-    Gizmos.DrawWireSphere(attackPoint.position, attackRange);   
-}
 }
