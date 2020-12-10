@@ -4,26 +4,32 @@ using UnityEngine;
 
 public class bombscript : MonoBehaviour
 {
-    public Animator animator;
 
+    public Animator animator;
+    public float explowait = 4f;
+    public float changetagwait = 2f;
     void Start()
     {
         animator.SetTrigger("Bombon");
-        StartCoroutine(changetag());
+        //StartCoroutine(changetag());
         StartCoroutine(explo());
     }
 
     IEnumerator explo()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(explowait);
         Destroy(gameObject);
     }
     
 
     IEnumerator changetag()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(changetagwait);
         transform.gameObject.tag = "Bomb"; 
-        Debug.Log("testest");
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        animator.SetTrigger("Explo");
     }
 }

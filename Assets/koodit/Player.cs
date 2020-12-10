@@ -34,7 +34,16 @@ public class Player : MonoBehaviour {
     void Update() 
     {
         bool wasOnGround = onGround;
-        onGround = Physics2D.Raycast(transform.position + colliderOffset, Vector2.down, groundLength, groundLayer) || Physics2D.Raycast(transform.position - colliderOffset, Vector2.down, groundLength, groundLayer);
+        onGround = Physics2D.Raycast(transform.position + new Vector3(0.12f, 0, 0)+ colliderOffset, Vector2.down, groundLength, groundLayer) || Physics2D.Raycast(transform.position - colliderOffset, Vector2.down, groundLength, groundLayer);
+
+       if (onGround)
+       {
+           rb.sharedMaterial.friction = 5.0f;
+       }
+       else
+       {
+           rb.sharedMaterial.friction = 0.0f;
+       }
 
         if(!wasOnGround && onGround){
             StartCoroutine(JumpSqueeze(1.25f, 0.8f, 0.05f));
@@ -54,7 +63,16 @@ public class Player : MonoBehaviour {
         modifyPhysics();
     }
     void moveCharacter(float horizontal) {
-        rb.AddForce(Vector2.right * horizontal * moveSpeed);
+        
+        if (onGround)
+        {    
+            rb.AddForce(Vector2.right * horizontal * moveSpeed);
+            animator.SetTrigger("onGround1");
+        }
+        else
+        {
+            rb.AddForce(Vector2.right * horizontal * moveSpeed*1.5f);
+        }
 
         if ((horizontal > 0 && !facingRight) || (horizontal < 0 && facingRight)) {
             Flip();
@@ -63,7 +81,7 @@ public class Player : MonoBehaviour {
             rb.velocity = new Vector2(Mathf.Sign(rb.velocity.x) * maxSpeed, rb.velocity.y);
         }
         animator.SetFloat("horizontal", Mathf.Abs(rb.velocity.x));
-        animator.SetFloat("vertical",rb.velocity.y);
+        animator.SetFloat("vertical", rb.velocity.y);
     }
     void Jump(){
         rb.velocity = new Vector2(rb.velocity.x, 0);
@@ -114,7 +132,7 @@ public class Player : MonoBehaviour {
     }
     private void OnDrawGizmos() {
         Gizmos.color = Color.red;
-        Gizmos.DrawLine(transform.position + colliderOffset, transform.position + colliderOffset + Vector3.down * groundLength);
-        Gizmos.DrawLine(transform.position - colliderOffset, transform.position - colliderOffset + Vector3.down * groundLength);
+        Gizmos.DrawLine(transform.position + new Vector3(0.12f, 0, 0) + colliderOffset, transform.position +new Vector3(0.12f, 0, 0) +colliderOffset + Vector3.down * groundLength);
+        Gizmos.DrawLine(transform.position + new Vector3(0.12f, 0, 0) - colliderOffset, transform.position + new Vector3(0.12f, 0, 0) - colliderOffset + Vector3.down * groundLength);
     }
 }

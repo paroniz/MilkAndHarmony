@@ -5,10 +5,10 @@ using UnityEngine;
 public class cannonballscript : MonoBehaviour
 {
     private Animator ani = null;
+    public float explowait = 0.5f;
     void Start()
     {
         this.ani = this.GetComponent<Animator>();
-        ani.SetTrigger("Explo");
     }
 
     void Update()
@@ -16,17 +16,15 @@ public class cannonballscript : MonoBehaviour
         
     }
 
-    // void OnCollisionStay2D(Collision2D collision)
-    //  {
-    //     //  if((collision.collider.tag == "Bomb" && !osunut && !bombhit))
-    //     // {
-    //     //     bombhit = true;
-    //     //     audio.Play();
-    //     //     osunut = true;
-    //     //     iskutime = 1.5f;
-    //     //     hp--;
-    //     //     StartCoroutine(bombhittime());
-    //     //     bombhit = false;
-    //     // }
-    //  }
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        ani.SetTrigger("Explo");
+        StartCoroutine(explo());
+    }
+
+    IEnumerator explo()
+    {
+        yield return new WaitForSeconds(explowait);
+        Destroy(gameObject);
+    }
 }

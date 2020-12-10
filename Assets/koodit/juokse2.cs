@@ -16,11 +16,18 @@ public class juokse2 : MonoBehaviour {
     private bool hyokkaa = false;
     public float ammussekunnit;
 
+    public bool onGround = false;
+
     float horizontal;
 
     public Rigidbody2D luoti;
     public GameObject piipputuli;
 
+    public Vector3 colliderOffset;
+
+    public float groundLength = 0.6f;
+
+    public LayerMask groundLayer;
 public float speed=100;
     Rigidbody2D rb; 
 
@@ -36,12 +43,16 @@ public float speed=100;
     void Update()
     {
         
-        horizontal = Input.GetAxisRaw("Horizontal");
+        
        
-        float moveBy = horizontal * speed; 
-        rb.velocity = new Vector2(moveBy, rb.velocity.y); 
+        // float moveBy = horizontal * speed; 
+        // rb.velocity = new Vector2(moveBy, rb.velocity.y); 
         Vector3 suunta = LaskeSuunta();
         transform.Translate(suunta * nopeus * Time.deltaTime);
+        //rb.MovePosition(transform.position + (suunta * nopeus * Time.deltaTime));
+        horizontal = Input.GetAxisRaw("Horizontal");
+        onGround = Physics2D.Raycast(transform.position + colliderOffset, Vector2.down, groundLength, groundLayer) || Physics2D.Raycast(transform.position - colliderOffset, Vector2.down, groundLength, groundLayer);
+        //onGround = Physics2D.Raycast(transform.position + colliderOffset, Vector2.down, groundLength, groundLayer) || Physics2D.Raycast(transform.position - colliderOffset, Vector2.down, groundLength, groundLayer);
 
         if((horizontal > 0) && (this.suunta != 1))
         {
@@ -55,28 +66,9 @@ public float speed=100;
             this.suunta = 2;
         }
 
-        if((Input.GetButtonDown("Jump")  && (this.GetComponent<Rigidbody2D>().velocity.y == 0)))
+        if((Input.GetButtonDown("Jump")  && onGround))
         {
             this.GetComponent<Rigidbody2D>().AddForce(Vector2.up * hyppyvoima);
-        }
-
-        if(Input.GetKeyDown(KeyCode.LeftControl)) 
-        {
-            // if(saaampua == true)
-            // {
-                
-                    
-            //         this.ani.SetTrigger("Attack");
-         
-        
-            //         hyokkaa = true;   
-            //     Melee();
-            //     audio.Play();
-            //     saaampua = false;
-            //     ammuscooldown = true;
-            //     ammussekunnit = 0.6f;
-                
-            // }
         }
 
         if (Input.GetKeyDown(KeyCode.LeftArrow))
@@ -100,6 +92,7 @@ public float speed=100;
         }
         
         ammussekunnit -= Time.deltaTime;
+        
         if (ammussekunnit <= 0f && ammuscooldown == true) 
         {  
             saaampua = true; 
@@ -107,16 +100,23 @@ public float speed=100;
         }
     }
 
+    
+    void FixedUpdate()
+    {
+        
+    }
+    
+
     public Vector3 LaskeSuunta()
     {
         Vector3 suunta = Vector3.zero;
             
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (horizontal > 0)
         {
             suunta.x += 1.0f;
         }
         
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (horizontal < 0)
         {
             suunta.x += 1.0f;
         }
@@ -126,5 +126,11 @@ public float speed=100;
     void Melee()
     {
 
+    }
+    private void OnDrawGizmos() 
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(transform.position + colliderOffset, transform.position + colliderOffset + Vector3.down * groundLength);
+        Gizmos.DrawLine(transform.position - colliderOffset, transform.position - colliderOffset + Vector3.down * groundLength);
     }
 }

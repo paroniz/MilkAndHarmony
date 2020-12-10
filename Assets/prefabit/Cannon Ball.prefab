@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 5853909103933761427}
   - component: {fileID: 5853909103933761426}
   - component: {fileID: 7910089417442746633}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Cannon Ball
-  m_TagString: Untagged
+  m_TagString: Bomb
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -125,7 +125,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!58 &5853909103933761426
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -154,4 +154,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fe130952403f024c9d95f2278b282cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
+  explowait: 0.5
