@@ -33,11 +33,11 @@ public class hpscript: MonoBehaviour
         audio = gameObject.AddComponent<AudioSource>(); 
         audio.clip = deathsound;
         audio.volume = 1.0f;
-        
         heart1 =  GameObject.Find("SmallHeart1");
         heart2 =  GameObject.Find("SmallHeart2");
         heart3 =  GameObject.Find("SmallHeart3");
         kamera =  GameObject.Find("Main Camera");
+        Physics2D.IgnoreLayerCollision(11, 12, false);
     }
 
     void Update() 
@@ -105,13 +105,8 @@ public class hpscript: MonoBehaviour
             hp++;
             Debug.Log("yolo3");
         }
-    
         
-    }
-
-     void OnCollisionStay2D(Collision2D collision)
-     {
-         if((collision.collider.tag == "Bomb" && !osunut && !bombhit))
+        if((collision.collider.tag == "Bomb" && !osunut && !bombhit))
         {
             bombhit = true;
             audio.Play();
@@ -121,7 +116,23 @@ public class hpscript: MonoBehaviour
             StartCoroutine(bombhittime());
             bombhit = false;
         }
+        
+        if (collision.gameObject.layer == 11)
+        {
+            Physics2D.IgnoreLayerCollision(11, 12, true); 
+            StartCoroutine("colliderreturnwait");
+        }
      }
+
+     void OnCollisionStay2D(Collision2D collision)
+     {
+     }
+
+    IEnumerator colliderreturnwait()
+    {
+        yield return new WaitForSeconds(1.5f);
+        Physics2D.IgnoreLayerCollision(11, 12, false); 
+    }
 
     IEnumerator kuolema()
     {

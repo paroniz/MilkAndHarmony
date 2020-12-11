@@ -6,6 +6,8 @@ public class boxscript : MonoBehaviour
 { 
     public Animator animator;
     public int maxHealth = 40;
+
+    public float boxdestrowait = 0.3f;
     int currentHealth;
     void Start()
     {
@@ -26,9 +28,14 @@ public class boxscript : MonoBehaviour
     {
         Debug.Log("Enemy died!");
         //animator.SetTrigger("CannonShot");
-        animator.SetBool("IsDead", true);
+        animator.SetTrigger("Broke");
         GetComponent<Collider2D>().enabled = false;
         this.enabled = false;
+        StartCoroutine("Destroy");   
+    }
+    IEnumerator Destroy()
+    {
+        yield return new WaitForSeconds(boxdestrowait);
         Destroy(gameObject);
     }
 }
