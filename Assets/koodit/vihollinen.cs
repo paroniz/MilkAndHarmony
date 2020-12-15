@@ -32,8 +32,8 @@ public class vihollinen : MonoBehaviour
         Debug.Log("Enemy died!");
         animator.SetTrigger("CannonShot");
         animator.SetBool("IsDead", true);
-        GetComponent<Collider2D>().enabled = false;
-        this.enabled = false;
+        //GetComponent<Collider2D>().enabled = false;
+        //this.enabled = false;
         yield return new WaitForSeconds(1f);
         GameObject coin = Instantiate(coin2, transform.position + new Vector3(0f, 0f, 0), transform.rotation);
         Destroy(gameObject);

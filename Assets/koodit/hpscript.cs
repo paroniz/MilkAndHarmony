@@ -11,9 +11,7 @@ public class hpscript: MonoBehaviour
     public GameObject heartz3;
     public GameObject heartz2;
     private GameObject heart3;
-
     private GameObject heart2;
-
     private GameObject heart1;
     private GameObject vaihdasydan;
     private GameObject holderi;
@@ -28,8 +26,15 @@ public class hpscript: MonoBehaviour
     private bool tuhottu2 = false;
     private float iskutime;  
     private int hp = 3; 
+    Rigidbody2D rb;
+    Vector2 knockbackVectorLeft;
+    Vector2 knockbackVectorRight;
+    Vector2 enemyDirection;
 
     void Start() {
+        knockbackVectorLeft = new Vector2(1,1);
+        knockbackVectorRight = new Vector2(-1,1);
+        rb = gameObject.GetComponent<Rigidbody2D>();
         audio = gameObject.AddComponent<AudioSource>(); 
         audio.clip = deathsound;
         audio.volume = 1.0f;
@@ -94,6 +99,18 @@ public class hpscript: MonoBehaviour
     {
         if((collision.collider.tag == "Enemy" && !osunut))
         {
+            enemyDirection = collision.transform.position - transform.position;
+            Debug.Log(enemyDirection.x);
+
+            if(enemyDirection.x > 0)
+            {
+                knockbackLeft();
+            }
+            else
+            {
+                knockbackRight();
+            }
+            
             audio.Play();
             osunut = true;
             iskutime = 1.5f;
@@ -113,6 +130,16 @@ public class hpscript: MonoBehaviour
             osunut = true;
             iskutime = 1.5f;
             hp--;
+
+            if(enemyDirection.x > 0)
+            {
+                knockbackLeft();
+            }
+            else
+            {
+                knockbackRight();
+            }
+            
             StartCoroutine(bombhittime());
             bombhit = false;
         }
@@ -122,11 +149,19 @@ public class hpscript: MonoBehaviour
             Physics2D.IgnoreLayerCollision(11, 12, true); 
             StartCoroutine("colliderreturnwait");
         }
-     }
+    }
 
-     void OnCollisionStay2D(Collision2D collision)
-     {
-     }
+    private void knockbackRight()
+    {
+        rb.AddForce(knockbackVectorLeft * 500);
+        Debug.Log("knockbackingright");
+    }
+
+    private void knockbackLeft()
+    {
+        rb.AddForce(knockbackVectorRight * 500);
+        Debug.Log("knockbacking");
+    }
 
     IEnumerator colliderreturnwait()
     {
