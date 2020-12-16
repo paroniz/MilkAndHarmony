@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour {
+public class PlayerWithoutWallBlock : MonoBehaviour {
     [Header("Horizontal Movement")]
     public float moveSpeed = 10f;
     public Vector2 direction;
@@ -41,14 +41,13 @@ public class Player : MonoBehaviour {
         bool wasOnGround = onGround;
         onGround = Physics2D.Raycast(transform.position + new Vector3(0.12f, 0, 0) + colliderOffset, Vector2.down, groundLength, groundLayer) || Physics2D.Raycast(transform.position - colliderOffset, Vector2.down, groundLength, groundLayer);
         
-        if(!onGround)
-        {
-        onWallLeft = Physics2D.Raycast(transform.position + new Vector3(-1f, 0.3f, 0), transform.position + new Vector3(-1f, 0.3f, 0) + Vector3.left, sideLength* 3 , groundLayer) ||
-            Physics2D.Raycast(transform.position + new Vector3(-1f, -0.3f, 0), transform.position + new Vector3(-1f, -0.3f, 0) + Vector3.left, sideLength*3, groundLayer); 
+        // onWallLeft = Physics2D.Raycast(transform.position + new Vector3(-1f, 0.3f, 0), transform.position + new Vector3(-1f, 0.3f, 0) + Vector3.left, sideLength* 3 , groundLayer) ||
+        //     Physics2D.Raycast(transform.position + new Vector3(-1f, -0.3f, 0), transform.position + new Vector3(-1f, -0.3f, 0) + Vector3.left, sideLength*3, groundLayer); 
         
-        onWallRight = Physics2D.Raycast(transform.position + new Vector3(0.2f, 0.3f, 0), transform.position + new Vector3(0.5f, 0.3f, 0) + Vector3.right, sideLength, groundLayer) ||
-            Physics2D.Raycast(transform.position + new Vector3(0.2f, -0.3f, 0), transform.position + new Vector3(0.5f, -0.3f, 0) + Vector3.right, sideLength, groundLayer);
-        }
+        // onWallRight = Physics2D.Raycast(transform.position + new Vector3(0.2f, 0.3f, 0), transform.position + new Vector3(0.5f, 0.3f, 0) + Vector3.right, sideLength, groundLayer) ||
+        //     Physics2D.Raycast(transform.position + new Vector3(0.2f, -0.3f, 0), transform.position + new Vector3(0.5f, -0.3f, 0) + Vector3.right, sideLength, groundLayer);
+
+        onWallMethod();
 
         if (onGround)
         {
@@ -85,26 +84,16 @@ public class Player : MonoBehaviour {
             Jump();
         }
         modifyPhysics();
+        Debug.Log(rb.transform.rotation.y);
+    }
+
+    void onWallMethod()
+    {
     }
 
     void moveCharacter(float horizontal) {
         float horizontalmovement = Input.GetAxisRaw("Horizontal");
 
-        if (!onGround)
-        {
-            if (onWallLeft && horizontalmovement > 0)
-            {
-                rb.AddForce(Vector2.right * horizontal * moveSpeed * 1.5f);
-            }
-
-            if (onWallRight && horizontalmovement < 0)
-            {
-                rb.AddForce(Vector2.right * horizontal * moveSpeed * 1.5f);
-            }
-        }
-
-        if(!onWallLeft && !onWallRight)
-        {
             if (onGround)
             {    
                 rb.AddForce(Vector2.right * horizontal * moveSpeed);
@@ -114,7 +103,6 @@ public class Player : MonoBehaviour {
             {
                 rb.AddForce(Vector2.right * horizontal * moveSpeed * 1.5f);
             }
-        }
 
         if ((horizontal > 0 && !facingRight) || (horizontal < 0 && facingRight)) {
             Flip();
@@ -188,11 +176,16 @@ public class Player : MonoBehaviour {
 
     private void OnDrawGizmos() {
         Gizmos.color = Color.red;
-        Gizmos.DrawLine(transform.position + new Vector3(0.12f, 0, 0) + colliderOffset, transform.position +new Vector3(0.12f, 0, 0) +colliderOffset + Vector3.down * groundLength);
-        Gizmos.DrawLine(transform.position + new Vector3(0.12f, 0, 0) - colliderOffset, transform.position + new Vector3(0.12f, 0, 0) - colliderOffset + Vector3.down * groundLength);
-        Gizmos.DrawLine(transform.position + new Vector3(-1f, -0.3f, 0), transform.position + new Vector3(-1f, -0.3f, 0) + Vector3.left * sideLength * 3);
-        Gizmos.DrawLine(transform.position + new Vector3(0.2f, -0.3f, 0), transform.position + new Vector3(0.5f, -0.3f, 0) + Vector3.right * sideLength);
-        Gizmos.DrawLine(transform.position + new Vector3(-1f, 0.3f, 0), transform.position + new Vector3(-1f, 0.3f, 0) + Vector3.left * sideLength * 3);
-        Gizmos.DrawLine(transform.position + new Vector3(0.2f, 0.3f, 0), transform.position + new Vector3(0.5f, 0.3f, 0) + Vector3.right * sideLength);
+
+        if (rb.transform.rotation.y == 0)
+        {
+            Gizmos.DrawLine(transform.position + new Vector3(0.12f, 0, 0) + colliderOffset, transform.position +new Vector3(0.12f, 0, 0) +colliderOffset + Vector3.down * groundLength);
+            Gizmos.DrawLine(transform.position + new Vector3(0.12f, 0, 0) - colliderOffset, transform.position + new Vector3(0.12f, 0, 0) - colliderOffset + Vector3.down * groundLength);
+        }
+        else
+        {
+            Gizmos.DrawLine(transform.position + new Vector3(-0.12f, 0, 0) + colliderOffset, transform.position +new Vector3(-0.12f, 0, 0) + colliderOffset + Vector3.down * groundLength);
+            Gizmos.DrawLine(transform.position + new Vector3(-0.12f, 0, 0) - colliderOffset, transform.position + new Vector3(-0.12f, 0, 0) - colliderOffset + Vector3.down * groundLength);
+        }
     }
 }

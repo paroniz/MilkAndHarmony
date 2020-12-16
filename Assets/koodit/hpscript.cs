@@ -151,6 +151,62 @@ public class hpscript: MonoBehaviour
         }
     }
 
+    void OnCollisionStay2D(Collision2D collision)
+    {
+        if((collision.collider.tag == "Enemy" && !osunut))
+        {
+            enemyDirection = collision.transform.position - transform.position;
+            Debug.Log(enemyDirection.x);
+
+            if(enemyDirection.x > 0)
+            {
+                knockbackLeft();
+            }
+            else
+            {
+                knockbackRight();
+            }
+            
+            audio.Play();
+            osunut = true;
+            iskutime = 1.5f;
+            hp--;
+        }
+
+        if(collision.gameObject.name == "BigHeart")
+        {
+            hp++;
+            Debug.Log("yolo3");
+        }
+        
+        if((collision.collider.tag == "Bomb" && !osunut && !bombhit))
+        {
+            bombhit = true;
+            audio.Play();
+            osunut = true;
+            iskutime = 1.5f;
+            hp--;
+
+            if(enemyDirection.x > 0)
+            {
+                knockbackLeft();
+            }
+            else
+            {
+                knockbackRight();
+            }
+            
+            StartCoroutine(bombhittime());
+            bombhit = false;
+        }
+        
+        if (collision.gameObject.layer == 11)
+        {
+            Physics2D.IgnoreLayerCollision(11, 12, true); 
+            StartCoroutine("colliderreturnwait");
+        }
+    }
+
     private void knockbackRight()
     {
         rb.AddForce(knockbackVectorLeft * 500);

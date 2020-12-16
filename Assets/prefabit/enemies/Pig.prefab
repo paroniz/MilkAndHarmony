@@ -16,9 +16,10 @@ GameObject:
   - component: {fileID: 6933686607804710450}
   - component: {fileID: 6933686607804710451}
   - component: {fileID: 6933686607804710453}
+  - component: {fileID: 7598174616354457070}
   - component: {fileID: 6933686607804710452}
   m_Layer: 8
-  m_Name: RegularPig (5)
+  m_Name: Pig
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -176,7 +177,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c6d1d8ef56d5b047a8b9776fa4f08bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRadius: 1
+  xattackRadius: 1
+  yattackRadius: 1
+  xchargeDistance: 3
+  ychargeDistance: 3
+  chargeSpeed: 2
+  moveSpeed: 1
+  dead: 0
+  moveLimitRight: 0
+  moveLimitLeft: 0
+  isCharging: 0
+  turnTimer: 0
+  canTurn: 0
 --- !u!61 &6933686607804710453
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -190,7 +202,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.079273224, y: -0.11626768}
+  m_Offset: {x: 0.079273224, y: -0.13761926}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -201,7 +213,33 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.7559738, y: 0.64246464}
+  m_Size: {x: 0.7559738, y: 0.5997615}
+  m_EdgeRadius: 0
+--- !u!61 &7598174616354457070
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6933686607804710455}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.080070496, y: 0.15699613}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.0625, y: 0.875}
+    newSize: {x: 0.18, y: 0.17}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.75050354, y: 0.06338811}
   m_EdgeRadius: 0
 --- !u!114 &6933686607804710452
 MonoBehaviour:
@@ -215,4 +253,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c6d1d8ef56d5b047a8b9776fa4f08bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRadius: 1
+  xattackRadius: 1
+  yattackRadius: 0.5
+  xchargeDistance: 4
+  ychargeDistance: 0.8
+  chargeSpeed: 3
+  moveSpeed: 1
+  dead: 0
+  moveLimitRight: 0
+  moveLimitLeft: 0
+  isCharging: 0
+  turnTimer: 2
+  canTurn: 0

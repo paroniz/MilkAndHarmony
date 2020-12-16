@@ -5,26 +5,30 @@ using UnityEngine;
 public class enemyAttack : MonoBehaviour
 {
     public float xattackRadius = 1;
-    public float yattackRadius = 1;
+    public float yattackRadius = 0.5f;
     private Animator ani;
     Rigidbody2D rb;
     Rigidbody2D kingrb;
     GameObject king;
     float xdistanceBetween;
+    float xdistanceBetween2;
     float ydistanceBetween;
-    public float xchargeDistance = 3f;
-    public float ychargeDistance = 3f;
-    public float chargeLimitLeft;
-    public float chargeLimitRight;
+    public float xchargeDistance = 4f;
+    public float ychargeDistance = 0.8f;
+    // public float chargeLimitLeft;
+    // public float chargeLimitRight;
     public float chargeSpeed = 2;
-    public float moveSpeed = 1;
+    public float moveSpeed = -1;
     public bool dead = false;
-    public float moveLimitRight;
+    
     public float moveLimitLeft;
+
+    public float moveLimitRight;
     public bool isCharging = false;
-    public bool facingRight;
-    public float turnTimer;
+    //public bool facingRight;
+    public float turnTimer = 2;
     public bool canTurn;
+    
 
     void Start()
     {
@@ -48,14 +52,15 @@ public class enemyAttack : MonoBehaviour
         }
 
         xdistanceBetween = rb.transform.position.x - kingrb.transform.position.x;
+        xdistanceBetween2 = Mathf.Abs(rb.transform.position.x - kingrb.transform.position.x);
         ydistanceBetween = Mathf.Abs(rb.transform.position.y) - Mathf.Abs(kingrb.transform.position.y);
 
-        if(xdistanceBetween < xattackRadius && ydistanceBetween < yattackRadius)
+        if(xdistanceBetween2 < xattackRadius && ydistanceBetween < yattackRadius )
         {
             Attack();
         }
 
-        if(xdistanceBetween < xchargeDistance && ydistanceBetween < ychargeDistance && rb.transform.position.x < moveLimitRight && rb.transform.position.x > moveLimitLeft)
+        if(xdistanceBetween < xchargeDistance && ydistanceBetween < ychargeDistance && king.transform.position.x < moveLimitRight + 2 && king.transform.position.x > moveLimitLeft - 2)
         {
             isCharging = true;
             Charge();
@@ -65,7 +70,7 @@ public class enemyAttack : MonoBehaviour
             isCharging = false;
         }
 
-        Debug.Log(rb.transform.rotation.y);
+        //Debug.Log(rb.transform.rotation.y);
         TurnTimer();
     }
 
@@ -73,6 +78,7 @@ public class enemyAttack : MonoBehaviour
     {
         ani.SetTrigger("Attack");
         Debug.Log("attacking");
+        
     }
 
     void Charge()
@@ -80,15 +86,15 @@ public class enemyAttack : MonoBehaviour
         if(xdistanceBetween > 0 && rb.transform.rotation.y < 0)
         {
             this.GetComponent<Transform>().Rotate(0f, 180f, 0f);
-            Debug.Log("turning");
+            //Debug.Log("turning");
         }
 
         if(xdistanceBetween < 0 && rb.transform.rotation.y > -1)
         {
             this.GetComponent<Transform>().Rotate(0f, 180f, 0f); 
-            Debug.Log("turning");
+            //Debug.Log("turning");
         }
-        Debug.Log("charging");
+        //Debug.Log("charging");
         transform.position = Vector2.MoveTowards(transform.position, new Vector2(king.transform.position.x, transform.position.y), chargeSpeed * Time.deltaTime);
     }
 
