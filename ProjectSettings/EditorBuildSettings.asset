@@ -14,4 +14,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/FirstSmallRoom.unity
     guid: dc39ce46ffe39084484754d02d752a02
+  - enabled: 1
+    path: Assets/Scenes/GameOver.unity
+    guid: fb6d41e0a7e14ba40956736fd9282fe0
+  - enabled: 1
+    path: Assets/Scenes/Menu.unity
+    guid: c37469818729da54892d841489d68da2
   m_configObjects: {}

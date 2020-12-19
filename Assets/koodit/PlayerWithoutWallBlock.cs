@@ -71,9 +71,20 @@ public class PlayerWithoutWallBlock : MonoBehaviour {
         if(Input.GetButtonDown("Jump"))
         {
             jumpTimer = Time.time + jumpDelay;
+            
         }
         animator.SetBool("onGround", onGround);
         direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));   
+
+        //  if (rb.velocity.y > 0)
+        //  {
+        //      Physics2D.IgnoreLayerCollision(12, 13, true);
+        //      Debug.Log("false");
+        //  } 
+        //  else
+        //  {
+        //      Physics2D.IgnoreLayerCollision(12, 13, false);
+        // }
     }
 
     void FixedUpdate() 

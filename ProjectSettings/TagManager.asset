@@ -9,6 +9,7 @@ TagManager:
   - Box
   - Bomb
   - BombOff
+  - Spikes
   layers:
   - Default
   - TransparentFX
@@ -23,7 +24,7 @@ TagManager:
   - Box
   - Bomb
   - King
-  - 
+  - onewayplatform
   - 
   - 
   - 

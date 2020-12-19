@@ -60,7 +60,7 @@ public class enemyAttack : MonoBehaviour
             Attack();
         }
 
-        if(xdistanceBetween < xchargeDistance && ydistanceBetween < ychargeDistance && king.transform.position.x < moveLimitRight + 2 && king.transform.position.x > moveLimitLeft - 2)
+        if(xdistanceBetween < xchargeDistance && ydistanceBetween < ychargeDistance && king.transform.position.x < moveLimitRight && king.transform.position.x > moveLimitLeft)
         {
             isCharging = true;
             Charge();

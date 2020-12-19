@@ -43,6 +43,7 @@ public class hpscript: MonoBehaviour
         heart3 =  GameObject.Find("SmallHeart3");
         kamera =  GameObject.Find("Main Camera");
         Physics2D.IgnoreLayerCollision(11, 12, false);
+        
     }
 
     void Update() 
@@ -69,7 +70,7 @@ public class hpscript: MonoBehaviour
         if (hp <= 0 && !kuollut)
         {
             kuollut = true;
-            //StartCoroutine(kuolema());
+            //StartCoroutine(death());
             Destroy(heart1);
         }
 
@@ -115,6 +116,15 @@ public class hpscript: MonoBehaviour
             osunut = true;
             iskutime = 1.5f;
             hp--;
+        }
+
+        if(collision.collider.tag == "Spikes")
+        {
+ 
+            audio.Play();
+            osunut = true;
+            //iskutime = 1.5f;
+            hp = 0;
         }
 
         if(collision.gameObject.name == "BigHeart")
@@ -225,13 +235,14 @@ public class hpscript: MonoBehaviour
         Physics2D.IgnoreLayerCollision(11, 12, false); 
     }
 
-    IEnumerator kuolema()
+    IEnumerator death()
     {
         Destroy(holderi2);
-        GameObject kuolinanimaatio = Instantiate(kuolinani, transform.position, transform.rotation);
-        GetComponent<Renderer>().enabled = false;
+        animator.SetTrigger("death");
+        //GameObject kuolinanimaatio = Instantiate(kuolinani, transform.position, transform.rotation);
+        //GetComponent<Renderer>().enabled = false;
         yield return new WaitForSeconds(1.6f);
-        SceneManager.LoadScene("tappioskene");
+        SceneManager.LoadScene("GameOver");
     }   
     IEnumerator bombhittime()
     {
