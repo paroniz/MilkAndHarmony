@@ -50,14 +50,14 @@ public class Player : MonoBehaviour {
             Physics2D.Raycast(transform.position + new Vector3(0.2f, -0.3f, 0), transform.position + new Vector3(0.5f, -0.3f, 0) + Vector3.right, sideLength, groundLayer);
         }
 
-        if (onGround)
-        {
-            rb.sharedMaterial.friction = onGroundFriction;
-        }
-        else
-        {
-            rb.sharedMaterial.friction = 0.0f;
-        }
+        // if (onGround)
+        // {
+        //     rb.sharedMaterial.friction = onGroundFriction;
+        // }
+        // else
+        // {
+        //     rb.sharedMaterial.friction = 0.0f;
+        // }
 
         if (onGround && horizontal3 == 0)
         {

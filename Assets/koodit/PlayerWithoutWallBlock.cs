@@ -49,14 +49,14 @@ public class PlayerWithoutWallBlock : MonoBehaviour {
 
         onWallMethod();
 
-        if (onGround)
-        {
-            rb.sharedMaterial.friction = onGroundFriction;
-        }
-        else
-        {
-            rb.sharedMaterial.friction = 0.0f;
-        }
+        // if (onGround)
+        // {
+        //     rb.sharedMaterial.friction = onGroundFriction;
+        // }
+        // else
+        // {
+        //     rb.sharedMaterial.friction = 0.0f;
+        // }
 
         if (onGround && horizontal3 == 0)
         {
@@ -95,7 +95,6 @@ public class PlayerWithoutWallBlock : MonoBehaviour {
             Jump();
         }
         modifyPhysics();
-        Debug.Log(rb.transform.rotation.y);
     }
 
     void onWallMethod()

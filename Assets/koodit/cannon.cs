@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class cannonenemyscript : MonoBehaviour
+public class cannon : MonoBehaviour
 {
     public float shotspeed = 30f;
     public Animator animator;
@@ -13,19 +13,19 @@ public class cannonenemyscript : MonoBehaviour
 
     void Update()
     {
-        firetime -= Time.deltaTime;
-        Shoot();
+        //firetime -= Time.deltaTime;
+        //Shoot();
     }
 
-    void Shoot()
+    public void Shoot()
     {
-        if (firetime <= 0f) 
-        {
+        //if (firetime <= 0f) 
+        //{
             animator.SetTrigger("Throw");
             Rigidbody2D ammus = Instantiate(projectile, transform.position + new Vector3(0.6f, 0.2f, 0), transform.rotation);
             ammus.AddForce(new Vector2(-shotspeed,0), ForceMode2D.Impulse);
             firetime = 5f;
             Debug.Log("cannonshot");
-        }
+        //}
     }
 }

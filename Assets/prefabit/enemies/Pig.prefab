@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 6933686607804710446}
   - component: {fileID: 6933686607804710449}
   - component: {fileID: 6933686607804710450}
-  - component: {fileID: 6933686607804710451}
   - component: {fileID: 6933686607804710453}
   - component: {fileID: 7598174616354457070}
   - component: {fileID: 6933686607804710452}
@@ -165,30 +164,6 @@ MonoBehaviour:
   coin2: {fileID: 5157742573648288205, guid: 9a84ab5d632dd49418138eaec20cdab9, type: 3}
   maxHealth: 100
   goldCount: 50
---- !u!114 &6933686607804710451
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6933686607804710455}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c6d1d8ef56d5b047a8b9776fa4f08bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  xattackRadius: 1
-  yattackRadius: 1
-  xchargeDistance: 3
-  ychargeDistance: 3
-  chargeSpeed: 2
-  moveSpeed: 1
-  dead: 0
-  moveLimitRight: 0
-  moveLimitLeft: 0
-  isCharging: 0
-  turnTimer: 0
-  canTurn: 0
 --- !u!61 &6933686607804710453
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -260,8 +235,8 @@ MonoBehaviour:
   chargeSpeed: 3
   moveSpeed: 1
   dead: 0
-  moveLimitRight: 0
   moveLimitLeft: 0
+  moveLimitRight: 0
   isCharging: 0
   turnTimer: 2
   canTurn: 0

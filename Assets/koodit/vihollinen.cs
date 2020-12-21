@@ -9,7 +9,7 @@ public class vihollinen : MonoBehaviour
     public int maxHealth = 100;
     public int goldCount = 50;
     int currentHealth;
-    // Start is called before the first frame update
+
     void Start()
     {
         currentHealth = maxHealth;

@@ -14,10 +14,10 @@ public class camerascript : MonoBehaviour
         setPosition.x = player.transform.position.x;
         setPosition.y = player.transform.position.y + cameraheight;
 
-        if(player.transform.position.x > 0 && player.transform.position.x < 266.5)
-        {
+        //if(player.transform.position.x > 0 && player.transform.position.x < 266.5)
+       // {
             this.transform.position = setPosition;
-        }
+       // }
     }
 }
 
