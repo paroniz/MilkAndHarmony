@@ -31,7 +31,7 @@ public class coinscript : MonoBehaviour
             //osunut = true;
             //iskutime = 1.5f;
             //hp--;
-            Debug.Log("yolo3");
+            //Debug.Log("yolo3");
             StartCoroutine(destro());
         }
     }

@@ -4,35 +4,28 @@ using UnityEngine;
 
 public class matchPig : MonoBehaviour
 {
-    public float bombspeed = 30f;
-    public float bombspeedup = 0.2f;
-    public Animator animator;
-    public Rigidbody2D bomb;
-    public AudioClip bombthrow;
-    public  GameObject cannon;
+    private Animator animator;
+    public AudioClip light;
+    public GameObject cannon;
     public float firetime = 5f;
-    public float PickUpWait2 = 0.5f;
-    public float throwwait = 0.5f;
-
-
-
+    public float PickUpWait2 = 2f;
+    public float throwwait = 2f;
 
     void Start ()
     {
-
+        animator = this.GetComponent<Animator>();
     }
 
     void Update()
     {
         firetime -= Time.deltaTime;
-        Light();
+        LightMatch();
     }
 
-    void Light()
+    void LightMatch()
     {
         if (firetime <= 0f) 
         {
-            animator.SetTrigger("Throw");
             StartCoroutine("Wait");
             firetime = 5f;
         }
@@ -41,14 +34,14 @@ public class matchPig : MonoBehaviour
     IEnumerator Wait ()
     {
         yield return new WaitForSeconds(throwwait);
-        Rigidbody2D ammus = Instantiate(bomb, transform.position + new Vector3(0f, 0f, 0), transform.rotation);
-        ammus.AddForce(new Vector2(bombspeed,bombspeedup), ForceMode2D.Impulse);
+        animator.SetTrigger("LightMatch");
         StartCoroutine("LightCannon");
     }
     IEnumerator LightCannon ()
     {
-       cannon.GetComponent<cannon>().Shoot();
-       yield return new WaitForSeconds(throwwait);
+        animator.SetTrigger("LightCannon");
+        yield return new WaitForSeconds(throwwait);
+        cannon.GetComponent<cannon>().Shoot();
     }
 }
 

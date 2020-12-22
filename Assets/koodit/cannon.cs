@@ -25,7 +25,7 @@ public class cannon : MonoBehaviour
             Rigidbody2D ammus = Instantiate(projectile, transform.position + new Vector3(0.6f, 0.2f, 0), transform.rotation);
             ammus.AddForce(new Vector2(-shotspeed,0), ForceMode2D.Impulse);
             firetime = 5f;
-            Debug.Log("cannonshot");
+           // Debug.Log("cannonshot");
         //}
     }
 }

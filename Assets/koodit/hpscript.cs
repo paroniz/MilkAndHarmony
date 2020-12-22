@@ -81,7 +81,7 @@ public class hpscript: MonoBehaviour
             //vaihdasydan.transform.parent = kamera.transform;
             //holderi = vaihdasydan;
             Destroy(heart3);
-            Debug.Log("thoaa");
+            //Debug.Log("thoaa");
             //animator.SetTrigger("Destroy");
         }
     
@@ -220,13 +220,13 @@ public class hpscript: MonoBehaviour
     private void knockbackRight()
     {
         rb.AddForce(knockbackVectorLeft * 500);
-        Debug.Log("knockbackingright");
+        //Debug.Log("knockbackingright");
     }
 
     private void knockbackLeft()
     {
         rb.AddForce(knockbackVectorRight * 500);
-        Debug.Log("knockbacking");
+        //Debug.Log("knockbacking");
     }
 
     IEnumerator colliderreturnwait()
