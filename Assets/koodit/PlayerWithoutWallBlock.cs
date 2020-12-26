@@ -25,16 +25,29 @@ public class PlayerWithoutWallBlock : MonoBehaviour {
     public float gravity = 1f;
     public float fallMultiplier = 5f;
     public float onGroundFriction = 20f;
-
-    [Header("Collision")]
     public bool onGround = false;
     public bool onWallLeft = false;
     public bool onWallRight = false;
     public float groundLength = 0.6f;
     public float sideLength = 0.2f;
     public Vector3 colliderOffset;
+    private AudioSource audio;
+    public AudioClip stepSound;
+    private AudioSource jumpAudio;
+    public AudioClip jumpSound;
+    private bool stepSoundPlaying = false;
 
-    // Update is called once per frame
+    void Start()
+    {
+        audio = gameObject.AddComponent<AudioSource>(); 
+        audio.clip = stepSound;
+        audio.volume = 0.2f;
+        jumpAudio = gameObject.AddComponent<AudioSource>();
+        jumpAudio.clip = jumpSound;
+        jumpAudio.volume = 1;
+        InvokeRepeating("walkSound", 0, 0.2f);
+    }
+
     void Update() 
     {
         float horizontal3 = Input.GetAxisRaw("Horizontal");
@@ -46,8 +59,6 @@ public class PlayerWithoutWallBlock : MonoBehaviour {
         
         // onWallRight = Physics2D.Raycast(transform.position + new Vector3(0.2f, 0.3f, 0), transform.position + new Vector3(0.5f, 0.3f, 0) + Vector3.right, sideLength, groundLayer) ||
         //     Physics2D.Raycast(transform.position + new Vector3(0.2f, -0.3f, 0), transform.position + new Vector3(0.5f, -0.3f, 0) + Vector3.right, sideLength, groundLayer);
-
-        onWallMethod();
 
         // if (onGround)
         // {
@@ -97,10 +108,6 @@ public class PlayerWithoutWallBlock : MonoBehaviour {
         modifyPhysics();
     }
 
-    void onWallMethod()
-    {
-    }
-
     void moveCharacter(float horizontal) {
         float horizontalmovement = Input.GetAxisRaw("Horizontal");
 
@@ -124,6 +131,14 @@ public class PlayerWithoutWallBlock : MonoBehaviour {
         animator.SetFloat("horizontal", Mathf.Abs(rb.velocity.x));
         animator.SetFloat("vertical", rb.velocity.y);
     }
+    void walkSound()
+    {
+        float horizontalmovement = Input.GetAxisRaw("Horizontal");
+        if (horizontalmovement !=0 && onGround)
+        {
+            audio.Play();
+        }
+    }
     void Jump()
     {
         float horizontal2 = Input.GetAxisRaw("Horizontal");
@@ -138,6 +153,7 @@ public class PlayerWithoutWallBlock : MonoBehaviour {
             rb.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
         }
 
+        jumpAudio.Play();
         jumpTimer = 0;
         StartCoroutine(JumpSqueeze(0.5f, 1.2f, 0.1f));
     }

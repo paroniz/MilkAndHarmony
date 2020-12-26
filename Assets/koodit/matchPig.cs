@@ -5,7 +5,10 @@ using UnityEngine;
 public class matchPig : MonoBehaviour
 {
     private Animator animator;
-    public AudioClip light;
+    public AudioClip lightMatch;
+    public AudioClip litMatch;
+    private AudioSource litMatchSource;
+    private AudioSource lightMatchSource;
     public GameObject cannon;
     public float firetime = 5f;
     public float PickUpWait2 = 2f;
@@ -13,6 +16,12 @@ public class matchPig : MonoBehaviour
 
     void Start ()
     {
+        lightMatchSource = gameObject.AddComponent<AudioSource>(); 
+        lightMatchSource.clip = lightMatch;
+        lightMatchSource.volume = 0.4f;
+        litMatchSource = gameObject.AddComponent<AudioSource>(); 
+        litMatchSource.clip = litMatch;
+        litMatchSource.volume = 0.4f;
         animator = this.GetComponent<Animator>();
     }
 
@@ -42,6 +51,7 @@ public class matchPig : MonoBehaviour
         animator.SetTrigger("LightCannon");
         yield return new WaitForSeconds(throwwait);
         cannon.GetComponent<cannon>().Shoot();
+        lightMatchSource.Play();
     }
 }
 

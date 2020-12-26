@@ -179,6 +179,7 @@ MonoBehaviour:
   boxLayers:
     serializedVersion: 2
     m_Bits: 1024
+  hammerSwing: {fileID: 8300000, guid: 893fbb37204696a4bbfd3de96a7238cb, type: 3}
   attackRange: 0.39
   attackDamage: 40
   attackRate: 2
@@ -221,10 +222,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 0}
-  deathsound: {fileID: 0}
   kuolinani: {fileID: 0}
   heartz3: {fileID: 0}
   heartz2: {fileID: 0}
+  hammerSwing: {fileID: 0}
 --- !u!114 &5104677185205177592
 MonoBehaviour:
   m_ObjectHideFlags: 0

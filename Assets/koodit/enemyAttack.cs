@@ -10,28 +10,30 @@ public class enemyAttack : MonoBehaviour
     Rigidbody2D rb;
     Rigidbody2D kingrb;
     GameObject king;
+    private AudioSource audio;
+    public AudioClip pigSwing;
     float xdistanceBetween;
     float xdistanceBetween2;
     float ydistanceBetween;
     public float xchargeDistance = 4f;
     public float ychargeDistance = 0.8f;
-    // public float chargeLimitLeft;
-    // public float chargeLimitRight;
     public float chargeSpeed = 2;
     public float moveSpeed = -1;
     public bool dead = false;
-    
     public float moveLimitLeft;
-
     public float moveLimitRight;
     public bool isCharging = false;
     //public bool facingRight;
     public float turnTimer = 2;
     public bool canTurn;
+    private float attackTimer = 0.4f;
     
 
     void Start()
     {
+        audio = gameObject.AddComponent<AudioSource>(); 
+        audio.clip = pigSwing;
+        audio.volume = 1.0f;
         ani = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         king = GameObject.Find("King");
@@ -41,6 +43,8 @@ public class enemyAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        attackTimer -= Time.deltaTime;
+
         if (!dead && !isCharging)
         {
             this.GetComponent<Transform>().Translate(moveSpeed * Time.deltaTime, 0f, 0f);
@@ -76,9 +80,12 @@ public class enemyAttack : MonoBehaviour
 
     void Attack()
     {
-        ani.SetTrigger("Attack");
-        Debug.Log("attacking");
-        
+        if(attackTimer <= 0)
+        {
+            ani.SetTrigger("Attack");
+            audio.Play();
+            attackTimer = 0.3f;
+        }
     }
 
     void Charge()

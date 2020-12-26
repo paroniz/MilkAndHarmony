@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 public class hpscript: MonoBehaviour 
 {
     public Animator animator;
-    public AudioClip deathsound;
     public GameObject kuolinani;
     public GameObject heartz3;
     public GameObject heartz2;
@@ -18,6 +17,9 @@ public class hpscript: MonoBehaviour
     private GameObject holderi2;
     private GameObject kamera;
     private AudioSource audio;
+    public AudioClip takingHit;
+    private AudioSource audioDie;
+    public AudioClip die;
     private bool osunut;
     private bool bombhit = false;
     private bool tippunut;
@@ -36,14 +38,16 @@ public class hpscript: MonoBehaviour
         knockbackVectorRight = new Vector2(-1,1);
         rb = gameObject.GetComponent<Rigidbody2D>();
         audio = gameObject.AddComponent<AudioSource>(); 
-        audio.clip = deathsound;
+        audio.clip = takingHit;
         audio.volume = 1.0f;
+        audioDie = gameObject.AddComponent<AudioSource>(); 
+        audioDie.clip = die;
+        audioDie.volume = 1.0f;
         heart1 =  GameObject.Find("SmallHeart1");
         heart2 =  GameObject.Find("SmallHeart2");
         heart3 =  GameObject.Find("SmallHeart3");
         kamera =  GameObject.Find("Main Camera");
         Physics2D.IgnoreLayerCollision(11, 12, false);
-        
     }
 
     void Update() 
@@ -52,7 +56,7 @@ public class hpscript: MonoBehaviour
         {
             tippunut = true;
             hp--;
-            audio.Play();
+            
             if (hp > 0) 
             {
             this.transform.position = new Vector2(-7.48f, -0.31f);
@@ -70,6 +74,7 @@ public class hpscript: MonoBehaviour
         if (hp <= 0 && !kuollut)
         {
             kuollut = true;
+            audioDie.Play();
             //StartCoroutine(death());
             Destroy(heart1);
         }

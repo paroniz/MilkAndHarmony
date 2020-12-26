@@ -117,6 +117,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   score: 20
+  coinSound: {fileID: 8300000, guid: 4fe77deb5f944a24fb43e6a9c5e8b511, type: 3}
 --- !u!61 &5157742573648288206
 BoxCollider2D:
   m_ObjectHideFlags: 0

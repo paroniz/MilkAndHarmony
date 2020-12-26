@@ -8,12 +8,21 @@ public class isku : MonoBehaviour
     public Transform attackPoint;
     public LayerMask enemyLayers;
     public LayerMask boxLayers;
+    private AudioSource audio;
+    public AudioClip hammerSwing;
     public float attackRange = 0.5f;
     public int attackDamage = 40;
     public float attackRate = 2f;
     float nextAttackTime = 0f;
 
-    // Update is called once per frame
+ 
+    void Start()
+    {
+        audio = gameObject.AddComponent<AudioSource>(); 
+        audio.clip = hammerSwing;
+        audio.volume = 1.0f;
+    }
+
     void Update()
     {
         float fireaxis = Input.GetAxis("Fire1");
@@ -30,6 +39,8 @@ public class isku : MonoBehaviour
 
     void Attack()
     {
+        audio.Play();
+        
         animator.SetTrigger("attack");
 
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);

@@ -164,6 +164,7 @@ MonoBehaviour:
   coin2: {fileID: 5157742573648288205, guid: 9a84ab5d632dd49418138eaec20cdab9, type: 3}
   maxHealth: 100
   goldCount: 50
+  gettingHit: {fileID: 8300000, guid: b623edb58e95fdc44bf8994546582d53, type: 3}
 --- !u!61 &6933686607804710453
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -230,6 +231,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xattackRadius: 1
   yattackRadius: 0.5
+  pigSwing: {fileID: 8300000, guid: f19d0bc6a61f6c245b740477c7bb8a33, type: 3}
   xchargeDistance: 4
   ychargeDistance: 0.8
   chargeSpeed: 3

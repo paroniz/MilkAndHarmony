@@ -11,8 +11,14 @@ public class coinscript : MonoBehaviour
     private int rahamaara2;
     private GameObject showgold = null;
     private Animator ani = null;
+    public AudioClip coinSound;
+    private AudioSource audio;
+    
     void Start()
     {
+        audio = gameObject.AddComponent<AudioSource>(); 
+        audio.clip = coinSound;
+        audio.volume = 0.4f;
         this.ani = this.GetComponent<Animator>();
         showgold = GameObject.Find("GoldCount");
     }
@@ -32,6 +38,7 @@ public class coinscript : MonoBehaviour
             //iskutime = 1.5f;
             //hp--;
             //Debug.Log("yolo3");
+            audio.Play();
             StartCoroutine(destro());
         }
     }
