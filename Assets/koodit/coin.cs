@@ -4,12 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 
-public class coinscript : MonoBehaviour
+public class coin : MonoBehaviour
 {
     public int score;
-    private string rahamaara;
-    private int rahamaara2;
-    private GameObject showgold = null;
+    private string moneyText;
+    private int amount;
+    private GameObject moneyUI = null;
     private Animator ani = null;
     public AudioClip coinSound;
     private AudioSource audio;
@@ -20,30 +20,25 @@ public class coinscript : MonoBehaviour
         audio.clip = coinSound;
         audio.volume = 0.4f;
         this.ani = this.GetComponent<Animator>();
-        showgold = GameObject.Find("GoldCount");
+        moneyUI = GameObject.Find("GoldCount");
     }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.gameObject.name == "King")
         {
-            rahamaara = showgold.GetComponent<Text>().text;
-            rahamaara2 = System.Convert.ToInt32(rahamaara);
-            rahamaara2 += score;
-            rahamaara = rahamaara2.ToString();
+            moneyText = moneyUI.GetComponent<Text>().text;
+            amount = System.Convert.ToInt32(moneyText);
+            amount += score;
+            moneyText = amount.ToString();
             ani.SetTrigger("Destroy");
-            showgold.GetComponent<Text>().text = rahamaara;
-            //audio.Play();
-            //osunut = true;
-            //iskutime = 1.5f;
-            //hp--;
-            //Debug.Log("yolo3");
+            moneyUI.GetComponent<Text>().text = moneyText;
             audio.Play();
-            StartCoroutine(destro());
+            StartCoroutine(Destroy());
         }
     }
 
-    IEnumerator destro()
+    IEnumerator Destroy()
     {
         yield return new WaitForSeconds(1f);
         Destroy(gameObject);

@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class cannon : MonoBehaviour
 {
-    public float shotspeed = 30f;
+    public float shotSpeed = 30f;
     public Animator animator;
     public Rigidbody2D projectile;
     private AudioSource audio;
     public AudioClip shotSound;
-    public float firetime = 5f;
+    public float fireTime = 5f;
 
     void Start()
     {
@@ -25,14 +25,10 @@ public class cannon : MonoBehaviour
 
     public void Shoot()
     {
-        //if (firetime <= 0f) 
-        //{
-            audio.Play();
-            animator.SetTrigger("Throw");
-            Rigidbody2D ammus = Instantiate(projectile, transform.position + new Vector3(0, 0.2f, 0), transform.rotation);
-            ammus.AddForce(new Vector2(-shotspeed,0), ForceMode2D.Impulse);
-            firetime = 5f;
-           // Debug.Log("cannonshot");
-        //}
+        audio.Play();
+        animator.SetTrigger("Throw");
+        Rigidbody2D ammus = Instantiate(projectile, transform.position + new Vector3(0, 0.2f, 0), transform.rotation);
+        ammus.AddForce(new Vector2(-shotSpeed,0), ForceMode2D.Impulse);
+        fireTime = 5f;
     }
 }

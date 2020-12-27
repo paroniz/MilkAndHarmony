@@ -3,32 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
  
-public class mainmenucontroller : MonoBehaviour
+public class menu : MonoBehaviour
 {
-
     public GameObject mainMenu;
     public GameObject optionsMenu;
 
-    public void playGame() 
+    public void PlayGame() 
     {
         SceneManager.LoadScene("ekascene");
     }
  
-    public void options() 
+    public void Options() 
     {
         mainMenu.SetActive(false);
         optionsMenu.SetActive(true);
         
     }
     
-    public void optionsreturn() 
+    public void OptionsReturn() 
     {
         mainMenu.SetActive(true);
         optionsMenu.SetActive(false);
-        
     }
  
-    public void exitGame() 
+    public void ExitGame() 
     {
         Application.Quit();
     }

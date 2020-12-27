@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class matchPig : MonoBehaviour
 {
-    private Animator animator;
     public AudioClip lightMatch;
     public AudioClip litMatch;
     private AudioSource litMatchSource;
     private AudioSource lightMatchSource;
+    private Animator animator;
     public GameObject cannon;
-    public float firetime = 5f;
-    public float PickUpWait2 = 2f;
-    public float throwwait = 2f;
+    public float fireTime = 5f;
+    public float pickUpWait = 2f;
+    public float throwWait = 2f;
 
     void Start ()
     {
@@ -27,29 +27,30 @@ public class matchPig : MonoBehaviour
 
     void Update()
     {
-        firetime -= Time.deltaTime;
+        fireTime -= Time.deltaTime;
         LightMatch();
     }
 
     void LightMatch()
     {
-        if (firetime <= 0f) 
+        if (fireTime <= 0f) 
         {
             StartCoroutine("Wait");
-            firetime = 5f;
+            fireTime = 5f;
         }
     }
 
     IEnumerator Wait ()
     {
-        yield return new WaitForSeconds(throwwait);
+        yield return new WaitForSeconds(throwWait);
         animator.SetTrigger("LightMatch");
         StartCoroutine("LightCannon");
     }
+    
     IEnumerator LightCannon ()
     {
         animator.SetTrigger("LightCannon");
-        yield return new WaitForSeconds(throwwait);
+        yield return new WaitForSeconds(throwWait);
         cannon.GetComponent<cannon>().Shoot();
         lightMatchSource.Play();
     }

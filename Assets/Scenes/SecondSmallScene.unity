@@ -38826,7 +38826,6 @@ GameObject:
   - component: {fileID: 757612189}
   - component: {fileID: 757612188}
   - component: {fileID: 757612187}
-  - component: {fileID: 757612186}
   - component: {fileID: 757612185}
   - component: {fileID: 757612184}
   - component: {fileID: 757612183}
@@ -38860,11 +38859,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 2067237425}
-  kuolinani: {fileID: 0}
+  die: {fileID: 8300000, guid: 95203fde6d367904dafd8f8de6ff2525, type: 3}
+  takingHit: {fileID: 8300000, guid: 59b8ffc5ddbe6144ab02231f66d9b8b4, type: 3}
+  deathAni: {fileID: 0}
   heartz3: {fileID: 292375376}
   heartz2: {fileID: 1748800109}
-  takingHit: {fileID: 8300000, guid: 59b8ffc5ddbe6144ab02231f66d9b8b4, type: 3}
-  die: {fileID: 8300000, guid: 95203fde6d367904dafd8f8de6ff2525, type: 3}
 --- !u!61 &757612184
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -38915,32 +38914,6 @@ MonoBehaviour:
   attackRange: 0.71
   attackDamage: 40
   attackRate: 2
---- !u!114 &757612186
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 757612181}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0d759cc6223bb642a47cb376e2ec0d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nopeus: 3
-  hyppyvoima: 1600
-  luotinopeus: 80
-  laukaus: {fileID: 0}
-  ammussekunnit: 0
-  onGround: 0
-  luoti: {fileID: 0}
-  piipputuli: {fileID: 0}
-  colliderOffset: {x: 0, y: 0, z: 0}
-  groundLength: 0.6
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  speed: 3
 --- !u!50 &757612187
 Rigidbody2D:
   serializedVersion: 4
@@ -39080,8 +39053,8 @@ MonoBehaviour:
   groundLength: 0.6
   sideLength: 0.2
   colliderOffset: {x: 0, y: 0, z: 0}
-  stepSound: {fileID: 8300000, guid: f6f77c6fc4b91b645902ec58ae605d58, type: 3}
-  jumpSound: {fileID: 8300000, guid: 6451391fbb0194a43bfdbdb2e185def0, type: 3}
+  jumpSound: {fileID: 0}
+  stepSound: {fileID: 0}
 --- !u!1 &802737569
 GameObject:
   m_ObjectHideFlags: 0
@@ -45642,8 +45615,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 947841b9c84959045bda086255df0da2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomnumber: 2
   king: {fileID: 757612188}
+  roomNumber: 
 --- !u!212 &948852958
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -46928,8 +46901,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 947841b9c84959045bda086255df0da2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomnumber: 2
   king: {fileID: 757612188}
+  roomNumber: 
 --- !u!212 &1257582494
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -47934,10 +47907,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 1456169668}
-  coin2: {fileID: 0}
+  coin: {fileID: 0}
+  gettingHit: {fileID: 0}
   maxHealth: 100
   goldCount: 50
-  gettingHit: {fileID: 0}
 --- !u!61 &1456169667
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -48438,13 +48411,25 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6933686607804710452, guid: eb1794c837b627641a23b11e3bb2e2d4, type: 3}
+      propertyPath: moveLimitLeft
+      value: 56
+      objectReference: {fileID: 0}
+    - target: {fileID: 6933686607804710452, guid: eb1794c837b627641a23b11e3bb2e2d4, type: 3}
+      propertyPath: moveLimitRight
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 6933686607804710452, guid: eb1794c837b627641a23b11e3bb2e2d4, type: 3}
+      propertyPath: moveSpeed
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6933686607804710454, guid: eb1794c837b627641a23b11e3bb2e2d4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 48.92
+      value: 57.72
       objectReference: {fileID: 0}
     - target: {fileID: 6933686607804710454, guid: eb1794c837b627641a23b11e3bb2e2d4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.51
+      value: -3.27
       objectReference: {fileID: 0}
     - target: {fileID: 6933686607804710454, guid: eb1794c837b627641a23b11e3bb2e2d4, type: 3}
       propertyPath: m_LocalPosition.z
@@ -48486,7 +48471,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pig
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6933686607804710449, guid: eb1794c837b627641a23b11e3bb2e2d4, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: eb1794c837b627641a23b11e3bb2e2d4, type: 3}
 --- !u!1 &1690832501
 GameObject:
@@ -48942,11 +48928,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3994092744292366955, guid: 21af9ad5e53516d4e97bc3f84953ac7d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 60.17236
+      value: 47.31
       objectReference: {fileID: 0}
     - target: {fileID: 3994092744292366955, guid: 21af9ad5e53516d4e97bc3f84953ac7d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.33
+      value: -2.16
       objectReference: {fileID: 0}
     - target: {fileID: 3994092744292366955, guid: 21af9ad5e53516d4e97bc3f84953ac7d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -49945,15 +49931,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1247790133454805546, guid: 3391bedc6e6b5914a966ad70ee59a614, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1247790133454805548, guid: 3391bedc6e6b5914a966ad70ee59a614, type: 3}
+      propertyPath: speed
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1247790133454805549, guid: 3391bedc6e6b5914a966ad70ee59a614, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 55.86
+      value: 43.68
       objectReference: {fileID: 0}
     - target: {fileID: 1247790133454805549, guid: 3391bedc6e6b5914a966ad70ee59a614, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.38
+      value: 0.44
       objectReference: {fileID: 0}
     - target: {fileID: 1247790133454805549, guid: 3391bedc6e6b5914a966ad70ee59a614, type: 3}
       propertyPath: m_LocalPosition.z

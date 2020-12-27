@@ -4,47 +4,42 @@ using UnityEngine;
 
 public class bombPig: MonoBehaviour
 {
-    public float bombspeed = 30f;
-    public float bombspeedup = 0.2f;
+    public float speed = 30f;
+    public float speedUp = 0.2f;
     public Animator animator;
     public Rigidbody2D bomb;
-    
-    public float firetime = 5f;
-    public float PickUpWait2 = 0.5f;
-    public float throwwait = 0.5f;
-
-    void Start()
-    {
-        
-    }
+    public float fireTime = 5f;
+    public float PickUpWaitTime = 0.5f;
+    public float throwWait = 0.5f;
 
     void Update()
     {
-        firetime -= Time.deltaTime;
+        fireTime -= Time.deltaTime;
         Shoot();
     }
 
     void Shoot()
     {
-        if (firetime <= 0f) 
+        if (fireTime <= 0f) 
         {
             animator.SetTrigger("Throw");
             StartCoroutine("Wait");
-            firetime = 5f;
+            fireTime = 5f;
         }
     }
 
     IEnumerator Wait ()
     {
-        yield return new WaitForSeconds(throwwait);
+        yield return new WaitForSeconds(throwWait);
         Rigidbody2D ammus = Instantiate(bomb, transform.position + new Vector3(0f, 0f, 0), transform.rotation);
-        ammus.AddForce(new Vector2(bombspeed,bombspeedup), ForceMode2D.Impulse);
+        ammus.AddForce(new Vector2(speed, speedUp), ForceMode2D.Impulse);
         StartCoroutine("PickUpWait");
     }
+    
     IEnumerator PickUpWait ()
     {
         animator.SetTrigger("PickBomb");
-        yield return new WaitForSeconds(PickUpWait2);
+        yield return new WaitForSeconds(PickUpWaitTime);
         animator.SetTrigger("BackToIdle");
     }
 }

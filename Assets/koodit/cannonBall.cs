@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class cannonballscript : MonoBehaviour
+public class cannonBall : MonoBehaviour
 {
-    private Animator ani = null;
-    public float explowait = 0.5f;
-    private AudioSource audio;
+   
     public AudioClip shotSound;
+    private Animator ani = null;
+    private AudioSource audio;
+    public float exploWait = 0.5f;
     private bool audioPlayed = false;
+
     void Start()
     {
         this.ani = this.GetComponent<Animator>();
@@ -22,21 +24,16 @@ public class cannonballscript : MonoBehaviour
         audio.rolloffMode = AudioRolloffMode.Linear;
     }
 
-    void Update()
-    {
-        
-    }
-
     void OnCollisionEnter2D(Collision2D collision)
     {
         ani.SetTrigger("Explo");
         PlayExploAudio();
-        StartCoroutine(explo());
+        StartCoroutine(Explo());
     }
 
-    IEnumerator explo()
+    IEnumerator Explo()
     {
-        yield return new WaitForSeconds(explowait);
+        yield return new WaitForSeconds(exploWait);
         Destroy(gameObject);
     }
 

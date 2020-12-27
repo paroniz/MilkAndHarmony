@@ -2,20 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class isku : MonoBehaviour
+public class swing : MonoBehaviour
 {
     public Animator animator;
     public Transform attackPoint;
     public LayerMask enemyLayers;
     public LayerMask boxLayers;
-    private AudioSource audio;
     public AudioClip hammerSwing;
+    private AudioSource audio;
     public float attackRange = 0.5f;
     public int attackDamage = 40;
     public float attackRate = 2f;
-    float nextAttackTime = 0f;
+    private float nextAttackTime = 0f;
 
- 
     void Start()
     {
         audio = gameObject.AddComponent<AudioSource>(); 
@@ -40,18 +39,15 @@ public class isku : MonoBehaviour
     void Attack()
     {
         audio.Play();
-        
         animator.SetTrigger("attack");
-
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
-
         Collider2D[] hitBoxes = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, boxLayers);
 
         foreach(Collider2D enemy in hitEnemies)
         {
             if (enemy.gameObject.tag == "Enemy")
             {
-                enemy.GetComponent<vihollinen>().TakeDamage(attackDamage);
+                enemy.GetComponent<enemy>().TakeDamage(attackDamage);
                 Debug.Log("enemytakeshit");
             }
         }
@@ -60,7 +56,7 @@ public class isku : MonoBehaviour
         {
             if (box.gameObject.tag == "Box")
             {
-                box.GetComponent<boxscript>().TakeDamage(attackDamage);
+                box.GetComponent<box>().TakeDamage(attackDamage);
                 Debug.Log("boxtakeshit");
             }
        }

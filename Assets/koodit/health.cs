@@ -3,37 +3,38 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class hpscript: MonoBehaviour 
+public class health : MonoBehaviour 
 {
     public Animator animator;
-    public GameObject kuolinani;
+    public AudioClip die;
+    public AudioClip takingHit;
+    public GameObject deathAni;
     public GameObject heartz3;
     public GameObject heartz2;
     private GameObject heart3;
     private GameObject heart2;
     private GameObject heart1;
-    private GameObject vaihdasydan;
-    private GameObject holderi;
-    private GameObject holderi2;
-    private GameObject kamera;
+    private GameObject changeHeart;
+    private GameObject holder;
+    private GameObject holder2;
+    private GameObject camera;
     private AudioSource audio;
-    public AudioClip takingHit;
     private AudioSource audioDie;
-    public AudioClip die;
-    private bool osunut;
-    private bool bombhit = false;
-    private bool tippunut;
-    private bool kuollut = false;
-    private bool tuhottu1 = false;
-    private bool tuhottu2 = false;
-    private float iskutime;  
+    private Rigidbody2D rb;
+    private Vector2 knockbackVectorLeft;
+    private Vector2 knockbackVectorRight;
+    private Vector2 enemyDirection;
+    private bool hit;
+    private bool bombHit = false;
+    private bool fallen;
+    private bool dead = false;
+    private bool eliminated1 = false;
+    private bool eliminated2 = false;
+    private float hitTime;  
     private int hp = 3; 
-    Rigidbody2D rb;
-    Vector2 knockbackVectorLeft;
-    Vector2 knockbackVectorRight;
-    Vector2 enemyDirection;
-
-    void Start() {
+    
+    void Start() 
+    {
         knockbackVectorLeft = new Vector2(1,1);
         knockbackVectorRight = new Vector2(-1,1);
         rb = gameObject.GetComponent<Rigidbody2D>();
@@ -46,80 +47,80 @@ public class hpscript: MonoBehaviour
         heart1 =  GameObject.Find("SmallHeart1");
         heart2 =  GameObject.Find("SmallHeart2");
         heart3 =  GameObject.Find("SmallHeart3");
-        kamera =  GameObject.Find("Main Camera");
+        camera =  GameObject.Find("Main Camera");
         Physics2D.IgnoreLayerCollision(11, 12, false);
     }
 
     void Update() 
     {
-        if(this.transform.position.y < -6.5f && !tippunut)
+        if(this.transform.position.y < -6.5f && !fallen)
         {
-            tippunut = true;
+            fallen = true;
             hp--;
             
             if (hp > 0) 
             {
             this.transform.position = new Vector2(-7.48f, -0.31f);
-            kamera.transform.position = new Vector3(0, 0, -10);
-            tippunut = false;
+            camera.transform.position = new Vector3(0, 0, -10);
+            fallen = false;
             }
         }
 
-        iskutime -= Time.deltaTime;
-        if (iskutime <= 0f) 
+        hitTime -= Time.deltaTime;
+        if (hitTime <= 0f) 
         {   
-            osunut = false;
+            hit = false;
         }
 
-        if (hp <= 0 && !kuollut)
+        if (hp <= 0 && !dead)
         {
-            kuollut = true;
+            dead = true;
             audioDie.Play();
-            //StartCoroutine(death());
+            //StartCoroutine(Death());
             Destroy(heart1);
         }
 
-        if (hp < 3 && !tuhottu1)
+        if (hp < 3 && !eliminated1)
         {
-            tuhottu1 = true;
-            //GameObject vaihdasydan = Instantiate(heartz3, kamera.transform.position + new Vector3(-7.23f, 4.05f, 11f), transform.rotation);
-            //vaihdasydan.transform.parent = kamera.transform;
-            //holderi = vaihdasydan;
+            eliminated1 = true;
+            //GameObject changeHeart = Instantiate(heartz3, camera.transform.position + new Vector3(-7.23f, 4.05f, 11f), transform.rotation);
+            //changeHeart.transform.parent = camera.transform;
+            //holder = changeHeart;
             Destroy(heart3);
             //Debug.Log("thoaa");
             //animator.SetTrigger("Destroy");
         }
     
-        if (hp < 2 && !tuhottu2)
+        if (hp < 2 && !eliminated2)
         {
-            tuhottu2 = true;
-            //GameObject vaihdasydan2 = Instantiate(heartz2, kamera.transform.position + new Vector3(-7.931f, 4.05f, 11f), transform.rotation);
-           // vaihdasydan2.transform.parent = kamera.transform;
-            //holderi2 = vaihdasydan2;
-            Destroy(holderi);
+            eliminated2 = true;
+            //GameObject changeHeart2 = Instantiate(heartz2, camera.transform.position + new Vector3(-7.931f, 4.05f, 11f), transform.rotation);
+           // changeHeart2.transform.parent = camera.transform;
+            //holder2 = changeHeart2;
+            Destroy(holder);
             Destroy(heart2);
         }
     }   
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if((collision.collider.tag == "Enemy" && !osunut))
+        if((collision.collider.tag == "Enemy" && !hit))
         {
             enemyDirection = collision.transform.position - transform.position;
             Debug.Log(enemyDirection.x);
 
             if(enemyDirection.x > 0)
             {
-                knockbackLeft();
+                KnockbackLeft();
             }
             else
             {
-                knockbackRight();
+                KnockbackRight();
             }
             
             audio.Play();
-            osunut = true;
-            iskutime = 1.5f;
+            hit = true;
+            hitTime = 1.5f;
             hp--;
         }
 
@@ -127,8 +128,8 @@ public class hpscript: MonoBehaviour
         {
  
             audio.Play();
-            osunut = true;
-            //iskutime = 1.5f;
+            hit = true;
+            //hitTime = 1.5f;
             hp = 0;
         }
 
@@ -138,53 +139,53 @@ public class hpscript: MonoBehaviour
             Debug.Log("yolo3");
         }
         
-        if((collision.collider.tag == "Bomb" && !osunut && !bombhit))
+        if((collision.collider.tag == "Bomb" && !hit && !bombHit))
         {
-            bombhit = true;
+            bombHit = true;
             audio.Play();
-            osunut = true;
-            iskutime = 1.5f;
+            hit = true;
+            hitTime = 1.5f;
             hp--;
 
             if(enemyDirection.x > 0)
             {
-                knockbackLeft();
+                KnockbackLeft();
             }
             else
             {
-                knockbackRight();
+                KnockbackRight();
             }
             
-            StartCoroutine(bombhittime());
-            bombhit = false;
+            StartCoroutine(BombHitTime());
+            bombHit = false;
         }
         
         if (collision.gameObject.layer == 11)
         {
             Physics2D.IgnoreLayerCollision(11, 12, true); 
-            StartCoroutine("colliderreturnwait");
+            StartCoroutine("ColliderReturnWait");
         }
     }
 
     void OnCollisionStay2D(Collision2D collision)
     {
-        if((collision.collider.tag == "Enemy" && !osunut))
+        if((collision.collider.tag == "Enemy" && !hit))
         {
             enemyDirection = collision.transform.position - transform.position;
             Debug.Log(enemyDirection.x);
 
             if(enemyDirection.x > 0)
             {
-                knockbackLeft();
+                KnockbackLeft();
             }
             else
             {
-                knockbackRight();
+                KnockbackRight();
             }
             
             audio.Play();
-            osunut = true;
-            iskutime = 1.5f;
+            hit = true;
+            hitTime = 1.5f;
             hp--;
         }
 
@@ -194,62 +195,60 @@ public class hpscript: MonoBehaviour
             Debug.Log("yolo3");
         }
         
-        if((collision.collider.tag == "Bomb" && !osunut && !bombhit))
+        if((collision.collider.tag == "Bomb" && !hit && !bombHit))
         {
-            bombhit = true;
+            bombHit = true;
             audio.Play();
-            osunut = true;
-            iskutime = 1.5f;
+            hit = true;
+            hitTime = 1.5f;
             hp--;
 
             if(enemyDirection.x > 0)
             {
-                knockbackLeft();
+                KnockbackLeft();
             }
             else
             {
-                knockbackRight();
+                KnockbackRight();
             }
             
-            StartCoroutine(bombhittime());
-            bombhit = false;
+            StartCoroutine(BombHitTime());
+            bombHit = false;
         }
         
         if (collision.gameObject.layer == 11)
         {
             Physics2D.IgnoreLayerCollision(11, 12, true); 
-            StartCoroutine("colliderreturnwait");
+            StartCoroutine("ColliderReturnWait");
         }
     }
 
-    private void knockbackRight()
+    private void KnockbackRight()
     {
         rb.AddForce(knockbackVectorLeft * 500);
-        //Debug.Log("knockbackingright");
     }
 
-    private void knockbackLeft()
+    private void KnockbackLeft()
     {
         rb.AddForce(knockbackVectorRight * 500);
-        //Debug.Log("knockbacking");
     }
 
-    IEnumerator colliderreturnwait()
+    IEnumerator ColliderReturnWait()
     {
         yield return new WaitForSeconds(1.5f);
         Physics2D.IgnoreLayerCollision(11, 12, false); 
     }
 
-    IEnumerator death()
+    IEnumerator Death()
     {
-        Destroy(holderi2);
+        Destroy(holder2);
         animator.SetTrigger("death");
-        //GameObject kuolinanimaatio = Instantiate(kuolinani, transform.position, transform.rotation);
+        //GameObject deathAnimaatio = Instantiate(deathAni, transform.position, transform.rotation);
         //GetComponent<Renderer>().enabled = false;
         yield return new WaitForSeconds(1.6f);
         SceneManager.LoadScene("GameOver");
     }   
-    IEnumerator bombhittime()
+    IEnumerator BombHitTime()
     {
         yield return new WaitForSeconds(1.6f);
     }   

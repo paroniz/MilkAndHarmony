@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour {
+public class kingMove : MonoBehaviour 
+{
     [Header("Horizontal Movement")]
     public float moveSpeed = 10f;
     public Vector2 direction;
@@ -25,8 +26,6 @@ public class Player : MonoBehaviour {
     public float gravity = 1f;
     public float fallMultiplier = 5f;
     public float onGroundFriction = 20f;
-
-    [Header("Collision")]
     public bool onGround = false;
     public bool onWallLeft = false;
     public bool onWallRight = false;
@@ -34,21 +33,35 @@ public class Player : MonoBehaviour {
     public float sideLength = 0.2f;
     public Vector3 colliderOffset;
 
-    // Update is called once per frame
+    [Header("Audio")]
+    public AudioClip jumpSound;
+    public AudioClip stepSound;
+    private AudioSource jumpAudio;
+    private AudioSource audio;
+    private bool stepSoundPlaying = false;
+
+    void Start()
+    {
+        audio = gameObject.AddComponent<AudioSource>(); 
+        audio.clip = stepSound;
+        audio.volume = 0.2f;
+        jumpAudio = gameObject.AddComponent<AudioSource>();
+        jumpAudio.clip = jumpSound;
+        jumpAudio.volume = 1;
+        InvokeRepeating("WalkSound", 0, 0.2f);
+    }
+
     void Update() 
     {
         float horizontal3 = Input.GetAxisRaw("Horizontal");
         bool wasOnGround = onGround;
         onGround = Physics2D.Raycast(transform.position + new Vector3(0.12f, 0, 0) + colliderOffset, Vector2.down, groundLength, groundLayer) || Physics2D.Raycast(transform.position - colliderOffset, Vector2.down, groundLength, groundLayer);
         
-        if(!onGround)
-        {
-        onWallLeft = Physics2D.Raycast(transform.position + new Vector3(-1f, 0.3f, 0), transform.position + new Vector3(-1f, 0.3f, 0) + Vector3.left, sideLength* 3 , groundLayer) ||
-            Physics2D.Raycast(transform.position + new Vector3(-1f, -0.3f, 0), transform.position + new Vector3(-1f, -0.3f, 0) + Vector3.left, sideLength*3, groundLayer); 
+        // onWallLeft = Physics2D.Raycast(transform.position + new Vector3(-1f, 0.3f, 0), transform.position + new Vector3(-1f, 0.3f, 0) + Vector3.left, sideLength* 3 , groundLayer) ||
+        //     Physics2D.Raycast(transform.position + new Vector3(-1f, -0.3f, 0), transform.position + new Vector3(-1f, -0.3f, 0) + Vector3.left, sideLength*3, groundLayer); 
         
-        onWallRight = Physics2D.Raycast(transform.position + new Vector3(0.2f, 0.3f, 0), transform.position + new Vector3(0.5f, 0.3f, 0) + Vector3.right, sideLength, groundLayer) ||
-            Physics2D.Raycast(transform.position + new Vector3(0.2f, -0.3f, 0), transform.position + new Vector3(0.5f, -0.3f, 0) + Vector3.right, sideLength, groundLayer);
-        }
+        // onWallRight = Physics2D.Raycast(transform.position + new Vector3(0.2f, 0.3f, 0), transform.position + new Vector3(0.5f, 0.3f, 0) + Vector3.right, sideLength, groundLayer) ||
+        //     Physics2D.Raycast(transform.position + new Vector3(0.2f, -0.3f, 0), transform.position + new Vector3(0.5f, -0.3f, 0) + Vector3.right, sideLength, groundLayer);
 
         // if (onGround)
         // {
@@ -59,11 +72,6 @@ public class Player : MonoBehaviour {
         //     rb.sharedMaterial.friction = 0.0f;
         // }
 
-        if (onGround && horizontal3 == 0)
-        {
-            //pysäytys tähän
-        }
-
         if(!wasOnGround && onGround)
         {
             StartCoroutine(JumpSqueeze(1.25f, 0.8f, 0.05f));
@@ -72,59 +80,70 @@ public class Player : MonoBehaviour {
         if(Input.GetButtonDown("Jump"))
         {
             jumpTimer = Time.time + jumpDelay;
+            
         }
+
         animator.SetBool("onGround", onGround);
         direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));   
+
+        //  if (rb.velocity.y > 0)
+        //  {
+        //      Physics2D.IgnoreLayerCollision(12, 13, true);
+        //      Debug.Log("false");
+        //  } 
+        //  else
+        //  {
+        //      Physics2D.IgnoreLayerCollision(12, 13, false);
+        // }
     }
 
     void FixedUpdate() 
     {
-        moveCharacter(direction.x);
+        MoveCharacter(direction.x);
+
         if(jumpTimer > Time.time && onGround)
         {
             Jump();
         }
-        modifyPhysics();
+
+        ModifyPhysics();
     }
 
-    void moveCharacter(float horizontal) {
+    void MoveCharacter(float horizontal) 
+    {
         float horizontalmovement = Input.GetAxisRaw("Horizontal");
 
-        if (!onGround)
+        if (onGround)
+        {    
+            rb.AddForce(Vector2.right * horizontal * moveSpeed);
+            animator.SetTrigger("onGround1");
+        }
+        else
         {
-            if (onWallLeft && horizontalmovement > 0)
-            {
-                rb.AddForce(Vector2.right * horizontal * moveSpeed * 1.5f);
-            }
-
-            if (onWallRight && horizontalmovement < 0)
-            {
-                rb.AddForce(Vector2.right * horizontal * moveSpeed * 1.5f);
-            }
+            rb.AddForce(Vector2.right * horizontal * moveSpeed * 1.5f);
         }
 
-        if(!onWallLeft && !onWallRight)
+        if ((horizontal > 0 && !facingRight) || (horizontal < 0 && facingRight)) 
         {
-            if (onGround)
-            {    
-                rb.AddForce(Vector2.right * horizontal * moveSpeed);
-                animator.SetTrigger("onGround1");
-            }
-            else
-            {
-                rb.AddForce(Vector2.right * horizontal * moveSpeed * 1.5f);
-            }
-        }
-
-        if ((horizontal > 0 && !facingRight) || (horizontal < 0 && facingRight)) {
             Flip();
         }
 
-        if (Mathf.Abs(rb.velocity.x) > maxSpeed) {
+        if (Mathf.Abs(rb.velocity.x) > maxSpeed) 
+        {
             rb.velocity = new Vector2(Mathf.Sign(rb.velocity.x) * maxSpeed, rb.velocity.y);
         }
+
         animator.SetFloat("horizontal", Mathf.Abs(rb.velocity.x));
         animator.SetFloat("vertical", rb.velocity.y);
+    }
+
+    void WalkSound()
+    {
+        float horizontalmovement = Input.GetAxisRaw("Horizontal");
+        if (horizontalmovement !=0 && onGround)
+        {
+            audio.Play();
+        }
     }
     void Jump()
     {
@@ -140,27 +159,38 @@ public class Player : MonoBehaviour {
             rb.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
         }
 
+        jumpAudio.Play();
         jumpTimer = 0;
         StartCoroutine(JumpSqueeze(0.5f, 1.2f, 0.1f));
     }
 
-    void modifyPhysics() {
+    void ModifyPhysics() 
+    {
         bool changingDirections = (direction.x > 0 && rb.velocity.x < 0) || (direction.x < 0 && rb.velocity.x > 0);
 
-        if(onGround){
+        if(onGround)
+        {
             if (Mathf.Abs(direction.x) < 0.4f || changingDirections) 
             {
                 rb.drag = linearDrag;
-            } else {
+            } 
+            else 
+            {
                 rb.drag = 0f;
             }
+
             rb.gravityScale = 0;
-        }else{
+        }
+        else
+        {
             rb.gravityScale = gravity;
             rb.drag = linearDrag * 0.15f;
+
             if(rb.velocity.y < 0){
                 rb.gravityScale = gravity * fallMultiplier;
-            }else if(rb.velocity.y > 0 && !Input.GetButton("Jump")){
+            }
+            else if(rb.velocity.y > 0 && !Input.GetButton("Jump"))
+            {
                 rb.gravityScale = gravity * (fallMultiplier);
             }
         }
@@ -169,30 +199,43 @@ public class Player : MonoBehaviour {
         facingRight = !facingRight;
         transform.rotation = Quaternion.Euler(0, facingRight ? 0 : 180, 0);
     }
-    IEnumerator JumpSqueeze(float xSqueeze, float ySqueeze, float seconds) {
+
+    IEnumerator JumpSqueeze(float xSqueeze, float ySqueeze, float seconds) 
+    {
         Vector3 originalSize = Vector3.one;
         Vector3 newSize = new Vector3(xSqueeze, ySqueeze, originalSize.z);
         float t = 0f;
-        while (t <= 1.0) {
+
+        while (t <= 1.0) 
+        {
             t += Time.deltaTime / seconds;
             //characterHolder.transform.localScale = Vector3.Lerp(originalSize, newSize, t);
             yield return null;
         }
+
         t = 0f;
-        while (t <= 1.0) {
+
+        while (t <= 1.0) 
+        {
             t += Time.deltaTime / seconds;
             //characterHolder.transform.localScale = Vector3.Lerp(newSize, originalSize, t);
             yield return null;
         }
     }
 
-    private void OnDrawGizmos() {
+    private void OnDrawGizmos() 
+    {
         Gizmos.color = Color.red;
-        Gizmos.DrawLine(transform.position + new Vector3(0.12f, 0, 0) + colliderOffset, transform.position +new Vector3(0.12f, 0, 0) +colliderOffset + Vector3.down * groundLength);
-        Gizmos.DrawLine(transform.position + new Vector3(0.12f, 0, 0) - colliderOffset, transform.position + new Vector3(0.12f, 0, 0) - colliderOffset + Vector3.down * groundLength);
-        Gizmos.DrawLine(transform.position + new Vector3(-1f, -0.3f, 0), transform.position + new Vector3(-1f, -0.3f, 0) + Vector3.left * sideLength * 3);
-        Gizmos.DrawLine(transform.position + new Vector3(0.2f, -0.3f, 0), transform.position + new Vector3(0.5f, -0.3f, 0) + Vector3.right * sideLength);
-        Gizmos.DrawLine(transform.position + new Vector3(-1f, 0.3f, 0), transform.position + new Vector3(-1f, 0.3f, 0) + Vector3.left * sideLength * 3);
-        Gizmos.DrawLine(transform.position + new Vector3(0.2f, 0.3f, 0), transform.position + new Vector3(0.5f, 0.3f, 0) + Vector3.right * sideLength);
+
+        if (rb.transform.rotation.y == 0)
+        {
+            Gizmos.DrawLine(transform.position + new Vector3(0.12f, 0, 0) + colliderOffset, transform.position +new Vector3(0.12f, 0, 0) +colliderOffset + Vector3.down * groundLength);
+            Gizmos.DrawLine(transform.position + new Vector3(0.12f, 0, 0) - colliderOffset, transform.position + new Vector3(0.12f, 0, 0) - colliderOffset + Vector3.down * groundLength);
+        }
+        else
+        {
+            Gizmos.DrawLine(transform.position + new Vector3(-0.12f, 0, 0) + colliderOffset, transform.position +new Vector3(-0.12f, 0, 0) + colliderOffset + Vector3.down * groundLength);
+            Gizmos.DrawLine(transform.position + new Vector3(-0.12f, 0, 0) - colliderOffset, transform.position + new Vector3(-0.12f, 0, 0) - colliderOffset + Vector3.down * groundLength);
+        }
     }
 }

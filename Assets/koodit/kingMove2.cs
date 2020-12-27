@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class juokse2 : MonoBehaviour {
+public class kingMove2 : MonoBehaviour {
     
     public float nopeus;
     public float hyppyvoima;

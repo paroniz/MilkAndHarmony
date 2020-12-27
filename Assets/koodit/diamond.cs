@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class hpaddscript : MonoBehaviour
+public class diamond : MonoBehaviour
 {
     private Animator ani = null;
-    
+
     void Start()
     {
         this.ani = this.GetComponent<Animator>();
@@ -15,15 +15,15 @@ public class hpaddscript : MonoBehaviour
     {
         if(collision.gameObject.name == "King")
         {
-            StartCoroutine(destroythis());
+            StartCoroutine(Destroy());
         }
     }
 
-    IEnumerator destroythis()
-    {
-        //gameObject.GetComponent<PolygonCollider2D>().isTrigger = true;
+    IEnumerator Destroy()
+    {      
+        Debug.Log("yolo");
         ani.SetTrigger("Destroy");
         yield return new WaitForSeconds(1f);
-        Destroy(gameObject);            
+        Destroy(gameObject);      
     }
 }

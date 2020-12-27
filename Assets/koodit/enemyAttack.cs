@@ -4,30 +4,28 @@ using UnityEngine;
 
 public class enemyAttack : MonoBehaviour
 {
-    public float xattackRadius = 1;
-    public float yattackRadius = 0.5f;
     private Animator ani;
-    Rigidbody2D rb;
-    Rigidbody2D kingrb;
-    GameObject king;
-    private AudioSource audio;
     public AudioClip pigSwing;
-    float xdistanceBetween;
-    float xdistanceBetween2;
-    float ydistanceBetween;
+    private AudioSource audio;
+    private Rigidbody2D rb;
+    private Rigidbody2D kingrb;
+    private GameObject king;
     public float xchargeDistance = 4f;
     public float ychargeDistance = 0.8f;
     public float chargeSpeed = 2;
-    public float moveSpeed = -1;
+    public float moveSpeed = 1;
     public bool dead = false;
     public float moveLimitLeft;
     public float moveLimitRight;
     public bool isCharging = false;
-    //public bool facingRight;
     public float turnTimer = 2;
     public bool canTurn;
+    public float xattackRadius = 1;
+    public float yattackRadius = 0.5f;
+    private float xdistanceBetween;
+    private float xdistanceBetween2;
+    private float ydistanceBetween;
     private float attackTimer = 0.4f;
-    
 
     void Start()
     {
@@ -40,14 +38,13 @@ public class enemyAttack : MonoBehaviour
         kingrb = king.GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         attackTimer -= Time.deltaTime;
 
         if (!dead && !isCharging)
         {
-            this.GetComponent<Transform>().Translate(moveSpeed * Time.deltaTime, 0f, 0f);
+            this.GetComponent<Transform>().Translate(-moveSpeed * Time.deltaTime, 0f, 0f);
         }
 
         if (!isCharging)
@@ -74,7 +71,6 @@ public class enemyAttack : MonoBehaviour
             isCharging = false;
         }
 
-        //Debug.Log(rb.transform.rotation.y);
         TurnTimer();
     }
 
@@ -93,15 +89,12 @@ public class enemyAttack : MonoBehaviour
         if(xdistanceBetween > 0 && rb.transform.rotation.y < 0)
         {
             this.GetComponent<Transform>().Rotate(0f, 180f, 0f);
-            //Debug.Log("turning");
         }
 
         if(xdistanceBetween < 0 && rb.transform.rotation.y > -1)
         {
             this.GetComponent<Transform>().Rotate(0f, 180f, 0f); 
-            //Debug.Log("turning");
         }
-        //Debug.Log("charging");
         transform.position = Vector2.MoveTowards(transform.position, new Vector2(king.transform.position.x, transform.position.y), chargeSpeed * Time.deltaTime);
     }
 

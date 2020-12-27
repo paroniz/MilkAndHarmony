@@ -3,22 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
  
-public class GameOverCode : MonoBehaviour
+public class gameOver : MonoBehaviour
 {
-
     public GameObject mainMenu;
     public GameObject optionsMenu;
 
-    public void playGame() 
+    public void PlayGame() 
     {
         SceneManager.LoadScene("ekascene");
     }
  
-    public void goToMenu() 
+    public void GoToMenu() 
     {
         SceneManager.LoadScene("menu");
     }
-    public void exitGame() 
+
+    public void ExitGame() 
     {
         Application.Quit();
     }

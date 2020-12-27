@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class monsterikoodi2 : MonoBehaviour {
+public class monster : MonoBehaviour {
     
     public AudioClip tappoaani;
     public AudioClip kuolinaani;

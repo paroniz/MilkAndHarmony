@@ -3,20 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class pauseMenu : MonoBehaviour {
-    
-    public static bool GameIsPaused = false;
-    public GameObject pausemenu;
-    public GameObject paneeli;
-    public GameObject canvas2;
+public class pauseMenu : MonoBehaviour 
+{
+    public GameObject pausedMenu;
+    public GameObject panel;
+    public GameObject canvas;
     private GameObject hero;
-
-    void Start() {}
+    public static bool paused = false;
 
     void Update() {
-        if(Input.GetKeyDown(KeyCode.Escape)) //&& (!canvas2.active))
+        if(Input.GetKeyDown(KeyCode.Escape)) //&& (!canvas.active))
         {
-            if (GameIsPaused)
+            if (paused)
             {
                 Resume();
             }
@@ -30,19 +28,19 @@ public class pauseMenu : MonoBehaviour {
 
     public void Resume()
     {
-        pausemenu.SetActive(false);
-        paneeli.SetActive(true);
+        pausedMenu.SetActive(false);
+        panel.SetActive(true);
         Time.timeScale = 1f;
-        GameIsPaused = false;  
+        paused = false;  
             Cursor.visible = false;
     }
 
     void Pause ()
     {
-        pausemenu.SetActive(true);
-        paneeli.SetActive(false);
+        pausedMenu.SetActive(true);
+        panel.SetActive(false);
         Time.timeScale = 0f;
-        GameIsPaused = true;
+        paused = true;
     }
 
     public void Quit ()

@@ -4,29 +4,26 @@ using UnityEngine;
 
 public class tutorial : MonoBehaviour
 {
-    GameObject king;
     public GameObject note;
-    public GameObject swingnote;
-    public float jumpguideposition = 4.5f;
-    public float swingguideposition = 4.5f;
+    public GameObject swingNote;
+    private GameObject king;
+    public float jumpNotePosition = 4.5f;
+    public float swingNotePosition= 4.5f;
     public bool called;
-    public bool swingcalled;
+    public bool swingCalled;
     public bool cancelled = true;
-    public bool swingcancelled = true;
-
+    public bool swingCancelled = true;
 
     void Start()
     {
         king = GameObject.Find("King");
-        //note = GameObject.Find("TutorialCanvasJump");
         called = false;
-        swingcalled = false;
+        swingCalled = false;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if(king.transform.position.x > jumpguideposition && called == false)
+        if(king.transform.position.x > jumpNotePosition && called == false)
         {
             note.SetActive(true);
             called = true;
@@ -42,19 +39,19 @@ public class tutorial : MonoBehaviour
             }
         }
 
-        if(king.transform.position.x > swingguideposition && swingcalled == false)
+        if(king.transform.position.x > swingNotePosition && swingCalled == false)
         {
-            swingnote.SetActive(true);
-            swingcalled = true;
-            swingcancelled = false;
+            swingNote.SetActive(true);
+            swingCalled = true;
+            swingCancelled = false;
         }
 
-        if(swingcancelled == false)
+        if(swingCancelled == false)
         {
             if (Input.GetButtonDown("Fire1"))
             {
-                swingnote.SetActive(false);
-                swingcancelled = true;
+                swingNote.SetActive(false);
+                swingCancelled = true;
             }
         }
     }

@@ -4,26 +4,24 @@ using UnityEngine;
 
 public class bomb: MonoBehaviour
 {
-
     public Animator animator;
-    public float explowait = 6f;
-    public float colliderwaittime = 2f;
-    private Collider2D bombcollider;
-    private Rigidbody2D rb;
-    public AudioClip bombExplo;
-    private AudioSource audio;
     public AudioClip bombThrow;
+    public AudioClip bombExplo;
     private AudioSource audioBombThrow;
-    private float bombAudioWaitTime = 0;
+    private AudioSource audio;
+    private Collider2D bombCollider;
+    private Rigidbody2D rb;
+    private float bombAudioWait = 0;
+    public float exploWait = 6f;
+    public float colliderWait = 2f;
 
     void Start()
     {
         audio = gameObject.GetComponent<AudioSource>(); 
-        //audio.clip = bombExplo;
         audio.volume = 0.7f;
         audio.maxDistance = 6f;
         audio.minDistance = 3f;
-        bombcollider = GetComponent<Collider2D>(); 
+        bombCollider = GetComponent<Collider2D>(); 
         rb = GetComponent<Rigidbody2D>();
         audioBombThrow = gameObject.AddComponent<AudioSource>(); 
         audioBombThrow.clip = bombThrow;
@@ -38,21 +36,19 @@ public class bomb: MonoBehaviour
 
     void Update()
     {
-        bombAudioWaitTime -= Time.deltaTime;
+        bombAudioWait -= Time.deltaTime;
     }
 
-    IEnumerator explo()
+    IEnumerator Explo()
     {
-        
         yield return new WaitForSeconds(2);
         Destroy(gameObject);
         //gameObject.SetActive(false);
-        //StartCoroutine("destroy");
+        //StartCoroutine("Destroy");
     }
 
-    IEnumerator destroy()
+    IEnumerator Destroy()
     {
-        
         yield return new WaitForSeconds(2.6f);
         Destroy(gameObject);
         //gameObject.SetActive(false);
@@ -63,35 +59,36 @@ public class bomb: MonoBehaviour
         yield return new WaitForSeconds(2);
         PlayAudio();
         animator.SetTrigger("InstantExplo");
-        StartCoroutine("destroy");
+        StartCoroutine("Destroy");
     }
 
     void PlayAudio()
     {
-        if(bombAudioWaitTime <= 0)
+        if(bombAudioWait <= 0)
         {
             Debug.Log("playingauydio");
             audio.Play();
-            bombAudioWaitTime = 10f;
+            bombAudioWait = 10f;
         }
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
         audioBombThrow.Stop();
+        
         if (collision.gameObject.layer == 12)
         {
             PlayAudio();
             rb.gravityScale = 0.0f;
             animator.SetTrigger("InstantExplo");
             //StartCoroutine("colliderwait");
-            StartCoroutine("explo");
+            StartCoroutine("Explo");
         }
         else
         {
             StartCoroutine("WaitAndExplo");
         } 
-        
+
         rb.velocity=Vector3.zero; 
     }
 }

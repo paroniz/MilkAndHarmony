@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class boxscript : MonoBehaviour
+public class box : MonoBehaviour
 { 
     public Animator animator;
     public GameObject coin;
     public int maxHealth = 40;
-
-    public float boxdestrowait = 0.3f;
+    public float boxDestroWait = 0.3f;
     int currentHealth;
+
     void Start()
     {
         currentHealth = maxHealth;
@@ -19,6 +19,7 @@ public class boxscript : MonoBehaviour
     {
         currentHealth -= damage;
         animator.SetTrigger("Hurt");
+
         if(currentHealth <=0)
         {
             Die();
@@ -34,13 +35,16 @@ public class boxscript : MonoBehaviour
         this.enabled = false;
         StartCoroutine("Destroy");   
     }
+    
     IEnumerator Destroy()
     {
-        yield return new WaitForSeconds(boxdestrowait);
+        yield return new WaitForSeconds(boxDestroWait);
+
         if(Random.value > 0.5)
         {
             GameObject coin2 = Instantiate(coin, transform.position + new Vector3(0f, 0f, 0), transform.rotation);
         }
+
         Destroy(gameObject);
     }
 }

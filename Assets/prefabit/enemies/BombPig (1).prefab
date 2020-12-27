@@ -118,14 +118,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5843efc0a8b68848a9c481a79727d26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bombspeed: 0.8
-  bombspeedup: 0.4
+  speed: 5
+  speedUp: 2
   animator: {fileID: 1247790133454805551}
   bomb: {fileID: 2631307255077534774, guid: 398924fbda80657429dde87e297f3603, type: 3}
-  bombThrow: {fileID: 8300000, guid: 6d84533841b1ce440b530877e1376ed6, type: 3}
-  firetime: 5
-  PickUpWait2: 0.3
-  throwwait: 0.8
+  fireTime: 5
+  PickUpWaitTime: 0.5
+  throwWait: 0.5
 --- !u!114 &1247790133454805537
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,10 +138,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 1247790133454805551}
-  coin2: {fileID: 8536590356016511128, guid: ec05d6aa5a2cc8e489db6d52ec9bbe21, type: 3}
+  coin: {fileID: 0}
+  gettingHit: {fileID: 8300000, guid: b623edb58e95fdc44bf8994546582d53, type: 3}
   maxHealth: 100
   goldCount: 50
-  gettingHit: {fileID: 8300000, guid: b623edb58e95fdc44bf8994546582d53, type: 3}
 --- !u!61 &1247790133454805536
 BoxCollider2D:
   m_ObjectHideFlags: 0
